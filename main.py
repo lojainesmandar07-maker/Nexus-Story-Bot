@@ -6,7 +6,7 @@ import asyncio
 import logging
 from dotenv import load_dotenv
 
-# تحميل التوكن
+# تحميل التوكن من ملف .env
 load_dotenv()
 
 # إعداد تسجيل الأخطاء
@@ -20,29 +20,45 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# إضافة المجلدات إلى المسار
+# إضافة المجلدات إلى مسار البحث
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from core.bot import NexusBot
 from web.server import keep_alive
+from utils.logger import setup_logger
 
 async def main():
+    """الدالة الرئيسية لتشغيل البوت"""
+    
+    # الحصول على التوكن
     TOKEN = os.getenv('TOKEN')
     
     if not TOKEN:
-        logger.critical("❌ التوكن غير موجود! أضفه كـ Secret في Replit")
+        logger.critical("❌ التوكن غير موجود! أضف TOKEN في متغيرات البيئة")
+        logger.critical("📝 في Replit: اذهب إلى Secrets وأضف TOKEN = توكنك")
         return
     
     try:
+        # إعداد السجلات المتقدمة
+        setup_logger()
+        
+        # إنشاء البوت
         bot = NexusBot()
+        
+        # تشغيل خادم الويب (للبقاء حياً)
         keep_alive()
+        
         logger.info("✅ بدء تشغيل البوت...")
+        
+        # تشغيل البوت
         await bot.start(TOKEN)
+        
     except KeyboardInterrupt:
-        logger.info("👋 تم إيقاف البوت")
+        logger.info("👋 تم إيقاف البوت يدوياً")
     except Exception as e:
-        logger.critical(f"💥 خطأ: {e}")
+        logger.critical(f"💥 خطأ غير متوقع: {e}", exc_info=True)
     finally:
+        # إغلاق البوت بشكل آمن
         if 'bot' in locals():
             await bot.close()
 
