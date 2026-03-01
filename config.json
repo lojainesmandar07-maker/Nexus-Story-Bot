@@ -1,0 +1,26 @@
+{
+  "bot": {
+    "name": "Nexus Story Bot",
+    "version": "1.0.0",
+    "command_prefix": "/",
+    "default_world": "fantasy",
+    "max_history": 50
+  },
+  "database": {
+    "path": "data/database/nexus.db",
+    "backup_interval": 86400,
+    "auto_backup": true
+  },
+  "game": {
+    "daily_cooldown": 86400,
+    "max_level": 20,
+    "base_xp": 100,
+    "xp_multiplier": 1.5,
+    "xp_per_choice": 10,
+    "xp_per_achievement": 50
+  },
+  "rate_limits": {
+    "commands_per_minute": 10,
+    "buttons_per_minute": 20
+  }
+}
