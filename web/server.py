@@ -1,5 +1,4 @@
-# web/server.py - خادم ويب بسيط باستخدام Flask
-# هذا المهم لإبقاء البوت نشطاً على منصات مثل Replit
+# web/server.py - خادم ويب لإبقاء البوت نشطاً
 
 from flask import Flask
 from threading import Thread
@@ -7,12 +6,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# إنشاء تطبيق Flask
 app = Flask(__name__)
 
 @app.route('/')
 def home():
-    """الصفحة الرئيسية - تعرض حالة البوت"""
     return """
     <!DOCTYPE html>
     <html>
@@ -34,10 +31,7 @@ def home():
                 max-width: 600px;
                 margin: 0 auto;
             }
-            h1 {
-                font-size: 3em;
-                margin-bottom: 20px;
-            }
+            h1 { font-size: 3em; margin-bottom: 20px; }
             .status {
                 background: #27ae60;
                 display: inline-block;
@@ -50,13 +44,10 @@ def home():
     <body>
         <div class="container">
             <h1>✨ بوت النيكسس ✨</h1>
-            <div class="status">✅ البوت شغال ومتصل!</div>
-            <p>🌍 4 عوالم في انتظارك</p>
-            <p>📖 أكثر من 150 جزء قصة</p>
-            <p>🏆 30+ إنجاز</p>
+            <div class="status">✅ البوت شغال!</div>
+            <p>🌍 4 عوالم | 📖 150+ جزء | 🏆 30+ إنجاز</p>
             <hr>
-            <p>استخدم /ابدأ في ديسكورد لبدء المغامرة</p>
-            <small>آخر تحديث: 2024</small>
+            <p>استخدم <strong>/ابدأ</strong> في ديسكورد</p>
         </div>
     </body>
     </html>
@@ -64,19 +55,11 @@ def home():
 
 @app.route('/health')
 def health():
-    """صفحة فحص الصحة - ترجع حالة البوت"""
-    return {"status": "alive", "timestamp": __import__('datetime').datetime.now().isoformat()}
+    return {"status": "alive"}
 
 def run():
-    """تشغيل خادم Flask"""
-    try:
-        app.run(host='0.0.0.0', port=8080, debug=False, use_reloader=False)
-    except Exception as e:
-        logger.error(f"❌ خطأ في تشغيل خادم الويب: {e}")
+    app.run(host='0.0.0.0', port=8080, debug=False)
 
 def keep_alive():
-    """تشغيل الخادم في خيط منفصل"""
-    t = Thread(target=run)
-    t.daemon = True
-    t.start()
-    logger.info("🌐 خادم الويب شغال على port 8080")
+    Thread(target=run, daemon=True).start()
+    logger.info("🌐 خادم الويب شغال")
