@@ -153,10 +153,18 @@ class PersistentStoryView(View):
                 world_part_field = f"{self.world_id}_part"
                 updates[world_part_field] = next_part_id
                 
-                # إضافة نقاط خبرة
-                xp_gain = random.randint(8, 15)
+                # إضافة نقاط خبرة بموازنة أعمق (تتأثر بالمخاطرة والتقدم)
+                xp_gain = self._calculate_xp_gain(player, effects, next_part_id)
                 updates["xp"] = player.get("xp", 0) + xp_gain
                 impact_log.append(f"🌟 خبرة: +{xp_gain}")
+
+                # إنجاز نادر مرتبط بالخيار (اختياري داخل JSON)
+                rare_ach_id = choice.get("achievement_id")
+                if rare_ach_id:
+                    unlocked = await self.bot.db.unlock_achievement(self.user_id, rare_ach_id, self.world_id)
+                    if unlocked:
+                        rare_ach_name = choice.get("achievement_name", rare_ach_id)
+                        impact_log.append(f"🏆 إنجاز نادر: {rare_ach_name}")
                 
                 # التحقق من زيادة المستوى
                 level_up = False
@@ -167,6 +175,9 @@ class PersistentStoryView(View):
                 
                 # تحديث قاعدة البيانات
                 await self.bot.db.update_player(self.user_id, updates)
+
+                # حفظ الجلسة الحالية لاسترجاع الأزرار بعد إعادة التشغيل
+                await self.bot.db.save_session(self.user_id, next_part_id)
                 
                 # تسجيل القرار في التاريخ
                 impact_summary = summarize_effects(effects)
@@ -266,6 +277,32 @@ class PersistentStoryView(View):
         
         return True
     
+    def _calculate_xp_gain(self, player: Dict, effects: Dict, next_part_id: str) -> int:
+        """حساب خبرة متوازنة حسب المخاطرة والتقدم"""
+        base_xp = 10
+
+        # مكافأة بسيطة للمخاطرة
+        corruption_delta = int(effects.get("corruption", 0)) if isinstance(effects, dict) else 0
+        reputation_delta = abs(int(effects.get("reputation", 0))) if isinstance(effects, dict) else 0
+        mystery_delta = int(effects.get("mystery", 0)) if isinstance(effects, dict) else 0
+
+        risk_bonus = max(0, corruption_delta) + (reputation_delta // 2) + (mystery_delta // 2)
+
+        # مكافأة تقدم الجزء
+        try:
+            part_num = int(str(next_part_id).split('_')[-1])
+        except Exception:
+            part_num = 1
+        progress_bonus = min(8, part_num // 4)
+
+        # مكافأة اختيار مؤهل/نادر
+        rare_bonus = 0
+        if effects and any(k in effects for k in ["achievement", "flag"]):
+            rare_bonus += 4
+
+        xp_gain = base_xp + risk_bonus + progress_bonus + rare_bonus
+        return max(8, min(32, xp_gain))
+
     async def _apply_effects(self, interaction: discord.Interaction, player: Dict, effects: Dict) -> tuple:
         """تطبيق تأثيرات الاختيار"""
         updates = {}
@@ -448,14 +485,29 @@ class PersistentViewManager:
         مهم جداً! يضمن أن الأزرار تعمل حتى بعد إعادة التشغيل
         """
         try:
-            # هنا يمكنك استعادة الأزرار من قاعدة البيانات
-            # ولكن للتبسيط، سنقوم بتسجيل الأنواع فقط
-            
-            # تسجيل كلاس العرض
-            self.bot.add_view(PersistentStoryView(self.bot, 0, "fantasy", {"id": "temp", "choices": []}))
-            
-            logger.info("✅ تم تسجيل الأزرار الدائمة")
-            
+            sessions = await self.bot.db.fetch_all("SELECT user_id, current_part FROM sessions")
+            restored = 0
+
+            for session in sessions:
+                user_id = session.get("user_id")
+                current_part = session.get("current_part")
+                player = await self.bot.db.get_player(user_id)
+
+                if not player or not current_part:
+                    continue
+
+                world_id = player.get("current_world", "fantasy")
+                part_data = self.bot.story_loader.get_part(world_id, current_part)
+                if not part_data:
+                    continue
+
+                view = PersistentStoryView(self.bot, user_id, world_id, part_data)
+                self.bot.add_view(view)
+                self.add_view(view, f"{user_id}:{world_id}:{current_part}")
+                restored += 1
+
+            logger.info(f"✅ تم تسجيل الأزرار الدائمة ({restored} جلسة مستعادة)")
+
         except Exception as e:
             logger.error(f"❌ خطأ في تسجيل الأزرار: {e}")
     
@@ -562,9 +614,7 @@ class WorldSelectView(View):
             self.selected_world = world_id
             self.stop()
             
-            # بدء القصة في العالم المختار
-            from commands.story_commands import start_world
-            await start_world(interaction, world_id)
+            await interaction.response.edit_message(content=f"✅ تم اختيار {world_id}. استخدم /ابدأ {world_id}", view=None)
         
         return callback
     

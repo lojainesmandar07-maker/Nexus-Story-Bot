@@ -4,7 +4,7 @@ import sqlite3
 import json
 import asyncio
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Dict, List, Any, Optional, Tuple
 from contextlib import asynccontextmanager
 import aiosqlite
@@ -47,6 +47,9 @@ class DatabaseManager:
                 # إنشاء الجداول
                 await self._create_tables(db)
                 
+                # تطبيق تحديثات مخطط قاعدة البيانات (migrations)
+                await self._run_migrations(db)
+
                 # التحقق من وجود البيانات الأساسية
                 await self._seed_data(db)
                 
@@ -92,7 +95,7 @@ class DatabaseManager:
                 fantasy_power INTEGER DEFAULT 0,
                 memories INTEGER DEFAULT 0,
                 tech_level INTEGER DEFAULT 0,
-                identity_fragments INTEGER DEFAULT 0,
+                identity INTEGER DEFAULT 0,
                 
                 -- متغيرات العلاقات
                 trust_aren INTEGER DEFAULT 0,
@@ -111,6 +114,7 @@ class DatabaseManager:
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP,
                 last_active TEXT DEFAULT CURRENT_TIMESTAMP,
                 last_daily TEXT DEFAULT NULL,
+                daily_streak INTEGER DEFAULT 0,
                 last_save TEXT DEFAULT CURRENT_TIMESTAMP
             )
         ''')
@@ -200,14 +204,41 @@ class DatabaseManager:
             )
         ''')
         
+        # جدول تعيين قنوات العوالم لكل سيرفر
+        await db.execute('''
+            CREATE TABLE IF NOT EXISTS guild_world_channels (
+                guild_id INTEGER,
+                world_id TEXT,
+                channel_id INTEGER,
+                set_by INTEGER,
+                updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (guild_id, world_id)
+            )
+        ''')
+
         # إنشاء الفهارس للسرعة
         await db.execute('CREATE INDEX IF NOT EXISTS idx_players_world ON players(current_world)')
         await db.execute('CREATE INDEX IF NOT EXISTS idx_players_active ON players(last_active)')
         await db.execute('CREATE INDEX IF NOT EXISTS idx_history_user ON history(user_id)')
         await db.execute('CREATE INDEX IF NOT EXISTS idx_history_timestamp ON history(timestamp)')
+        await db.execute('CREATE INDEX IF NOT EXISTS idx_guild_world_channels ON guild_world_channels(guild_id, world_id)')
         
         self.logger.info("✅ تم إنشاء جميع الجداول")
     
+
+    async def _run_migrations(self, db: aiosqlite.Connection):
+        """تطبيق ترقيات آمنة على الجداول القديمة"""
+        cursor = await db.execute("PRAGMA table_info(players)")
+        columns = {row[1] for row in await cursor.fetchall()}
+
+        if "identity" not in columns:
+            await db.execute("ALTER TABLE players ADD COLUMN identity INTEGER DEFAULT 0")
+            self.logger.info("✅ Migration: تمت إضافة العمود identity")
+
+        if "daily_streak" not in columns:
+            await db.execute("ALTER TABLE players ADD COLUMN daily_streak INTEGER DEFAULT 0")
+            self.logger.info("✅ Migration: تمت إضافة العمود daily_streak")
+
     async def _seed_data(self, db: aiosqlite.Connection):
         """إضافة بيانات أولية إذا كانت قاعدة البيانات فارغة"""
         
@@ -600,7 +631,42 @@ class DatabaseManager:
         cutoff = (datetime.now() - timedelta(seconds=max_age)).isoformat()
         await self.execute("DELETE FROM sessions WHERE last_interaction < ?", (cutoff,))
         self.logger.info("🧹 تم تنظيف الجلسات القديمة")
-    
+
+    # ============================================
+    # دوال إعدادات السيرفر (قنوات العوالم)
+    # ============================================
+
+    async def set_world_channel(self, guild_id: int, world_id: str, channel_id: int, set_by: int) -> bool:
+        """تعيين قناة عالم لسيرفر محدد"""
+        try:
+            query = """
+                INSERT INTO guild_world_channels (guild_id, world_id, channel_id, set_by, updated_at)
+                VALUES (?, ?, ?, ?, ?)
+                ON CONFLICT(guild_id, world_id)
+                DO UPDATE SET channel_id = excluded.channel_id, set_by = excluded.set_by, updated_at = excluded.updated_at
+            """
+            await self.execute(query, (guild_id, world_id, channel_id, set_by, datetime.now().isoformat()))
+            return True
+        except Exception as e:
+            self.logger.error(f"❌ خطأ في تعيين قناة العالم: {e}")
+            return False
+
+    async def get_world_channel(self, guild_id: int, world_id: str) -> Optional[int]:
+        """الحصول على قناة عالم لسيرفر محدد"""
+        row = await self.fetch_one(
+            "SELECT channel_id FROM guild_world_channels WHERE guild_id = ? AND world_id = ?",
+            (guild_id, world_id)
+        )
+        return row.get('channel_id') if row else None
+
+    async def get_guild_world_channels(self, guild_id: int) -> Dict[str, int]:
+        """الحصول على كل قنوات العوالم لسيرفر محدد"""
+        rows = await self.fetch_all(
+            "SELECT world_id, channel_id FROM guild_world_channels WHERE guild_id = ?",
+            (guild_id,)
+        )
+        return {row['world_id']: row['channel_id'] for row in rows}
+
     # ============================================
     # دوال النسخ الاحتياطي
     # ============================================

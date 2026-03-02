@@ -169,6 +169,7 @@ class StoryCommands(commands.Cog):
         
         # تحديث تقدم اللاعب في العالم
         await self.bot.db.update_player(interaction.user.id, {f"{world_id}_part": start_part_id})
+        await self.bot.db.save_session(interaction.user.id, start_part_id)
         
         # إنشاء رسالة تعريف بالعالم
         intro_embed = self.embeds.world_intro_embed(world_id, player.get("level", 1))
@@ -250,6 +251,7 @@ class StoryCommands(commands.Cog):
         
         # إنشاء الأزرار الدائمة
         view = PersistentStoryView(self.bot, user_id, current_world, part_data)
+        await self.bot.db.save_session(user_id, current_part)
         
         # تحديد القناة المناسبة
         channel = await self._get_world_channel(interaction, current_world)
@@ -507,31 +509,27 @@ class StoryCommands(commands.Cog):
     
     async def _get_world_channel(self, interaction: discord.Interaction, world_id: str) -> Optional[discord.TextChannel]:
         """الحصول على القناة المناسبة للعالم"""
+        guild = interaction.guild
+        if not guild:
+            return None
+
+        # 1) أولوية لإعدادات السيرفر عبر أمر setup
+        configured_channel_id = await self.bot.db.get_world_channel(guild.id, world_id)
+        if configured_channel_id:
+            configured_channel = guild.get_channel(configured_channel_id)
+            if isinstance(configured_channel, discord.TextChannel):
+                return configured_channel
+
+        # 2) fallback على الأسماء الافتراضية من الثوابت
         from core.constants import SERVER_CHANNELS
-        
         channel_name = SERVER_CHANNELS.get(world_id, {}).get("records")
-        if not channel_name:
-            return None
-        
-        # البحث عن القناة في السيرفر
-        for channel in interaction.guild.channels:
-            if channel.name == channel_name and isinstance(channel, discord.TextChannel):
-                return channel
-        
-        # إذا لم توجد، أنشئ القناة
-        try:
-            category = discord.utils.get(interaction.guild.categories, name="WORLDS")
-            if not category:
-                category = await interaction.guild.create_category("🌍 العوالم")
-            
-            channel = await interaction.guild.create_text_channel(
-                name=channel_name,
-                category=category,
-                topic=f"قصة {WORLD_NAMES[world_id]} - اختر خياراتك بحكمة!"
-            )
-            return channel
-        except:
-            return None
+        if channel_name:
+            for channel in guild.channels:
+                if channel.name == channel_name and isinstance(channel, discord.TextChannel):
+                    return channel
+
+        # 3) لا ننشئ قناة تلقائياً: نعيد None ليتم الإرسال في نفس القناة
+        return None
 
 
 # ============================================

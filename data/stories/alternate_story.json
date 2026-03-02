@@ -1,0 +1,556 @@
+{
+  "metadata": {
+    "name": "الواقع البديل",
+    "total_parts": 20,
+    "endings": 3,
+    "variables": [
+      "identity",
+      "knowledge_path",
+      "mystery",
+      "corruption",
+      "trust_aren"
+    ]
+  },
+  "parts": {
+    "ALT_01": {
+      "title": "المدينة التي تشبهك",
+      "location": "الممر الحلزوني",
+      "text": "كل نافذة هنا تعكس احتمالاً لحياتك. الوجوه مألوفة بشكل يخيف أكثر مما يطمئن.",
+      "choices": [
+        {
+          "text": "اتباع الصوت الداخلي",
+          "emoji": "🫧",
+          "next": "ALT_02",
+          "effects": {
+            "identity": 4,
+            "mystery": 3
+          },
+          "achievement_id": "rare_alternate_self",
+          "achievement_name": "مرآة الذات الكاملة"
+        },
+        {
+          "text": "مطاردة الصدى المظلم",
+          "emoji": "🌑",
+          "next": "ALT_03",
+          "effects": {
+            "corruption": 2,
+            "identity": 2
+          }
+        }
+      ]
+    },
+    "ALT_02": {
+      "title": "متحف الاحتمالات",
+      "location": "قاعة المرايا",
+      "text": "ترى نسخاً منك: الرحيم، القاسي، الجبان، الشجاع. وكل نسخة تقسم أنها الأصل.",
+      "choices": [
+        {
+          "text": "الإصغاء لنسخة الحكيم",
+          "emoji": "📚",
+          "next": "ALT_04",
+          "effects": {
+            "knowledge_path": 5,
+            "identity": 3
+          }
+        },
+        {
+          "text": "الإصغاء لنسخة المحارب",
+          "emoji": "⚔️",
+          "next": "ALT_05",
+          "effects": {
+            "identity": 4,
+            "corruption": 2
+          }
+        }
+      ]
+    },
+    "ALT_03": {
+      "title": "سوق الأسماء",
+      "location": "الحي المعكوس",
+      "text": "يمكنك شراء اسم جديد وترك اسمك القديم معلقاً على بابٍ بارد.",
+      "choices": [
+        {
+          "text": "الاحتفاظ باسمك",
+          "emoji": "🪪",
+          "next": "ALT_05",
+          "effects": {
+            "identity": 3,
+            "corruption": -1
+          }
+        },
+        {
+          "text": "استبدال الاسم",
+          "emoji": "🫥",
+          "next": "ALT_06",
+          "effects": {
+            "identity": 6,
+            "corruption": 3
+          }
+        }
+      ]
+    },
+    "ALT_04": {
+      "title": "برج الوعي",
+      "location": "سلم الإدراك",
+      "text": "كل درجة تكشف ذكرى. وبعض الذكريات لا تتذكر أنها حدثت أصلاً.",
+      "choices": [
+        {
+          "text": "قبول الذكريات",
+          "emoji": "🕊️",
+          "next": "ALT_07",
+          "effects": {
+            "knowledge_path": 6,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إعادة كتابتها",
+          "emoji": "✍️",
+          "next": "ALT_08",
+          "effects": {
+            "identity": 5,
+            "corruption": 3
+          }
+        }
+      ]
+    },
+    "ALT_05": {
+      "title": "جسر الانقسام",
+      "location": "نداء أرين",
+      "text": "يظهر أرين بنسختين متناقضتين؛ إحداهما تطلب الرحمة والأخرى تطلب الحسم.",
+      "choices": [
+        {
+          "text": "الثقة بأرين الهادئ",
+          "emoji": "🤝",
+          "next": "ALT_07",
+          "effects": {
+            "trust_aren": 7,
+            "corruption": -2
+          }
+        },
+        {
+          "text": "الثقة بأرين الحاد",
+          "emoji": "🗡️",
+          "next": "ALT_08",
+          "effects": {
+            "trust_aren": -3,
+            "corruption": 4
+          }
+        }
+      ]
+    },
+    "ALT_06": {
+      "title": "غرفة الفراغ",
+      "location": "الصفر المطلق",
+      "text": "لا صوت، لا وقت، لا شكل واضح. أنت فقط، وسؤال: من أنت عندما لا يراك أحد؟",
+      "choices": [
+        {
+          "text": "استعادة الاسم الأصلي",
+          "emoji": "🔁",
+          "next": "ALT_08",
+          "effects": {
+            "identity": 4,
+            "mystery": 3
+          }
+        },
+        {
+          "text": "المضي بلا اسم",
+          "emoji": "🕳️",
+          "next": "ALT_09",
+          "effects": {
+            "identity": 7,
+            "corruption": 4
+          }
+        }
+      ]
+    },
+    "ALT_07": {
+      "title": "حديقة النسخ",
+      "location": "المستوى الشفاف",
+      "text": "نسخك القديمة تعيش هنا. بعضها يريد الغفران، وبعضها يريد فرصة ثانية.",
+      "choices": [
+        {
+          "text": "مصالحة النسخ",
+          "emoji": "🌿",
+          "next": "ALT_10",
+          "effects": {
+            "identity": 5,
+            "corruption": -3
+          }
+        },
+        {
+          "text": "إلغاء النسخ الضعيفة",
+          "emoji": "🔥",
+          "next": "ALT_11",
+          "effects": {
+            "corruption": 5,
+            "knowledge_path": 2
+          }
+        }
+      ]
+    },
+    "ALT_08": {
+      "title": "مكتب الحقيقة",
+      "location": "مركز القرار",
+      "text": "ملف واحد أمامك: تعريف الذات. لا إجابة مثالية، فقط إجابة تتحمل ثمنها.",
+      "choices": [
+        {
+          "text": "أنا اختياراتي",
+          "emoji": "🧭",
+          "next": "ALT_10",
+          "effects": {
+            "identity": 6,
+            "knowledge_path": 3
+          }
+        },
+        {
+          "text": "أنا قوتي",
+          "emoji": "💢",
+          "next": "ALT_11",
+          "effects": {
+            "corruption": 6,
+            "identity": 2
+          }
+        }
+      ]
+    },
+    "ALT_09": {
+      "title": "النفق المعكوس",
+      "location": "خارج الإدراك",
+      "text": "كل خطوة تمنح قوة وتمحو ذكرى. هل النجاة تستحق هذا النوع من النسيان؟",
+      "choices": [
+        {
+          "text": "التوقف واستعادة الوعي",
+          "emoji": "🛑",
+          "next": "ALT_11",
+          "effects": {
+            "corruption": -1,
+            "mystery": 4
+          }
+        },
+        {
+          "text": "الاندفاع للنهاية",
+          "emoji": "🚀",
+          "next": "ALT_12",
+          "effects": {
+            "corruption": 7,
+            "identity": 4
+          }
+        }
+      ]
+    },
+    "ALT_10": {
+      "title": "محكمة الذات",
+      "location": "القاعة البيضاء",
+      "text": "تجلس أمام نفسك دون أقنعة. ما تقوله الآن سيعيد كتابة تاريخك الداخلي.",
+      "choices": [
+        {
+          "text": "قبول الذات كاملة",
+          "emoji": "✨",
+          "next": "ALT_13",
+          "effects": {
+            "identity": 7,
+            "corruption": -3
+          }
+        },
+        {
+          "text": "قبول نصف الحقيقة",
+          "emoji": "⚖️",
+          "next": "ALT_14",
+          "effects": {
+            "identity": 4,
+            "mystery": 2
+          }
+        }
+      ]
+    },
+    "ALT_11": {
+      "title": "عرش الانعكاس",
+      "location": "القلب الزجاجي",
+      "text": "يمكنك أن تحكم النسخ، أو تحررها. كلا الطريقين لن يتركك كما أنت.",
+      "choices": [
+        {
+          "text": "تحرير النسخ",
+          "emoji": "🕊️",
+          "next": "ALT_14",
+          "effects": {
+            "corruption": -2,
+            "knowledge_path": 3
+          }
+        },
+        {
+          "text": "إخضاع النسخ",
+          "emoji": "⛓️",
+          "next": "ALT_15",
+          "effects": {
+            "corruption": 8,
+            "identity": 5
+          }
+        }
+      ]
+    },
+    "ALT_12": {
+      "title": "الباب الأخير",
+      "location": "حافة اللاعودة",
+      "text": "بابان متجاوران: باب للنسيان الهادئ، وباب للوعي المؤلم.",
+      "choices": [
+        {
+          "text": "العودة بالحقيقة",
+          "emoji": "🫀",
+          "next": "ALT_15",
+          "effects": {
+            "identity": 5,
+            "knowledge_path": 3
+          }
+        },
+        {
+          "text": "العبور بالنسيان",
+          "emoji": "🌫️",
+          "next": "ALT_16",
+          "effects": {
+            "corruption": 5,
+            "mystery": 2
+          }
+        }
+      ]
+    },
+    "ALT_13": {
+      "title": "سفر الرماد",
+      "location": "ممر الهويات",
+      "text": "تجمع شتات أسمائك القديمة كمن يجمع رسائل من حياة سابقة.",
+      "choices": [
+        {
+          "text": "جمع الأسماء القديمة",
+          "emoji": "🧳",
+          "next": "ALT_16",
+          "effects": {
+            "identity": 5,
+            "knowledge_path": 2
+          }
+        },
+        {
+          "text": "حرق الأسماء القديمة",
+          "emoji": "🗂️",
+          "next": "ALT_17",
+          "effects": {
+            "mystery": 4,
+            "corruption": 1
+          }
+        }
+      ]
+    },
+    "ALT_14": {
+      "title": "غابة الذاكرة",
+      "location": "الضباب الحي",
+      "text": "الأشجار هنا تتكلم بصوت ذكرياتك. بعضها صادق، وبعضها يختبرك.",
+      "choices": [
+        {
+          "text": "الإصغاء للغابة",
+          "emoji": "🌲",
+          "next": "ALT_17",
+          "effects": {
+            "mystery": 5,
+            "knowledge_path": 2
+          }
+        },
+        {
+          "text": "تجاوز الهمس",
+          "emoji": "🌫️",
+          "next": "ALT_18",
+          "effects": {
+            "corruption": 4,
+            "identity": 3
+          }
+        }
+      ]
+    },
+    "ALT_15": {
+      "title": "مرآة الاعتراف",
+      "location": "البحيرة الساكنة",
+      "text": "حين تنظر إلى الماء، لا ترى وجهك... ترى دوافعك.",
+      "choices": [
+        {
+          "text": "الاعتراف بالدوافع",
+          "emoji": "🪞",
+          "next": "ALT_18",
+          "effects": {
+            "identity": 6,
+            "corruption": -2
+          }
+        },
+        {
+          "text": "تبرير كل شيء",
+          "emoji": "🧨",
+          "next": "ALT_19",
+          "effects": {
+            "corruption": 5,
+            "knowledge_path": 1
+          }
+        }
+      ]
+    },
+    "ALT_16": {
+      "title": "مكتبة الصمت",
+      "location": "رفوف بلا حبر",
+      "text": "كتب فارغة تنتظر أن تكتبها بقرارك القادم.",
+      "choices": [
+        {
+          "text": "كتابة الحقيقة",
+          "emoji": "📖",
+          "next": "ALT_19",
+          "effects": {
+            "knowledge_path": 5,
+            "mystery": 3
+          }
+        },
+        {
+          "text": "كتابة نسخة مريحة",
+          "emoji": "🧱",
+          "next": "ALT_20",
+          "effects": {
+            "identity": 4,
+            "corruption": 2
+          }
+        }
+      ]
+    },
+    "ALT_17": {
+      "title": "نافذة العبور",
+      "location": "قوس الاحتمالات",
+      "text": "يمكنك قفل بعض النهايات وفتح نهاية واحدة. هل تريد الحقيقة أم الراحة؟",
+      "choices": [
+        {
+          "text": "اختيار الحقيقة المؤلمة",
+          "emoji": "🪟",
+          "next": "ALT_20",
+          "effects": {
+            "identity": 5,
+            "knowledge_path": 2
+          }
+        },
+        {
+          "text": "اختيار الراحة الفارغة",
+          "emoji": "🕳️",
+          "next": "ALT_END_OBLIVION",
+          "effects": {
+            "corruption": 8,
+            "mystery": 2
+          }
+        }
+      ]
+    },
+    "ALT_18": {
+      "title": "مفترق الأثر",
+      "location": "خريطة الذات",
+      "text": "ترسم خريطة من الندوب والإنجازات. تتضح هويتك كلما اعترفت بنقصك.",
+      "choices": [
+        {
+          "text": "طريق التوازن",
+          "emoji": "🧭",
+          "next": "ALT_END_BALANCE",
+          "effects": {
+            "identity": 5,
+            "knowledge_path": 2
+          }
+        },
+        {
+          "text": "طريق الحقيقة",
+          "emoji": "💠",
+          "next": "ALT_END_TRUTH",
+          "effects": {
+            "identity": 8,
+            "corruption": -2
+          }
+        }
+      ]
+    },
+    "ALT_19": {
+      "title": "نبض الحقيقة",
+      "location": "الحجرة المركزية",
+      "text": "تسمع نبضاً يشبه قلبك. ليس لأنك في الداخل... بل لأن الداخل أصبح أنت.",
+      "choices": [
+        {
+          "text": "إصغاء للنبض",
+          "emoji": "💓",
+          "next": "ALT_END_TRUTH",
+          "effects": {
+            "identity": 9,
+            "corruption": -3
+          }
+        },
+        {
+          "text": "إخماد النبض",
+          "emoji": "☠️",
+          "next": "ALT_END_OBLIVION",
+          "effects": {
+            "corruption": 9,
+            "identity": 3
+          }
+        }
+      ]
+    },
+    "ALT_20": {
+      "title": "الخاتمة المفتوحة",
+      "location": "مرصد البدائل",
+      "text": "تنظر إلى عوالمك السابقة وتدرك: النهاية ليست نهاية، بل تعريف جديد للاسم.",
+      "choices": [
+        {
+          "text": "خاتمة متوازنة",
+          "emoji": "🌌",
+          "next": "ALT_END_BALANCE",
+          "effects": {
+            "identity": 6,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "خاتمة صادقة",
+          "emoji": "🌤️",
+          "next": "ALT_END_TRUTH",
+          "effects": {
+            "identity": 8,
+            "knowledge_path": 3
+          }
+        }
+      ]
+    }
+  },
+  "endings": {
+    "ALT_END_TRUTH": {
+      "title": "نهاية الحقيقة",
+      "text": "عرفت نفسك دون تزويق. لم تكن مثالياً، لكنك كنت صادقاً بما يكفي لتبدأ من جديد.",
+      "type": "light",
+      "requirements": {},
+      "rewards": {
+        "xp": 460,
+        "items": [
+          "truth_glass"
+        ]
+      },
+      "next_world": null
+    },
+    "ALT_END_BALANCE": {
+      "title": "نهاية التوازن",
+      "text": "لم تربح كل شيء ولم تخسر كل شيء. خرجت بهدوء من حربك الداخلية.",
+      "type": "gray",
+      "requirements": {},
+      "rewards": {
+        "xp": 340
+      },
+      "next_world": null
+    },
+    "ALT_END_OBLIVION": {
+      "title": "نهاية الذوبان",
+      "text": "اخترت القوة أو الهروب حتى ذابت الحدود بينك وبين الظلال.",
+      "type": "dark",
+      "requirements": {},
+      "rewards": {
+        "xp": 320,
+        "items": [
+          "void_seed"
+        ]
+      },
+      "next_world": null
+    }
+  }
+}
