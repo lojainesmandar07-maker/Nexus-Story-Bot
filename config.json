@@ -2,7 +2,7 @@
   "bot": {
     "name": "Nexus Story Bot",
     "version": "2.0.0",
-    "command_prefix": "!",
+    "command_prefix": "/",
     "owner_ids": [],
     "debug_mode": false,
     "testing_mode": false
@@ -23,5 +23,10 @@
     "enabled": true,
     "host": "0.0.0.0",
     "port": 8080
+  },
+  "paths": {
+    "stories_dir": "data/stories",
+    "database_dir": "data/database",
+    "logs_dir": "logs"
   }
 }
