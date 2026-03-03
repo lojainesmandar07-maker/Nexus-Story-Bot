@@ -49,7 +49,106 @@ class AdminCommands(commands.Cog):
     def is_owner(self, interaction: discord.Interaction) -> bool:
         """التحقق من أن المستخدم مالك البوت"""
         return interaction.user.id in config.get('bot.owner_ids', [])
-    
+
+    # ============================================
+    # أمر /setup_world - تعيين قناة عالم
+    # ============================================
+
+    @app_commands.command(name="setup_world", description="⚙️ تعيين قناة قصة لعالم محدد")
+    @app_commands.describe(
+        world="العالم المطلوب",
+        channel="القناة التي تريد إرسال قصة هذا العالم إليها"
+    )
+    @app_commands.choices(world=[
+        app_commands.Choice(name="🌲 عالم الفانتازيا", value="fantasy"),
+        app_commands.Choice(name="📜 عالم الماضي", value="retro"),
+        app_commands.Choice(name="🤖 عالم المستقبل", value="future"),
+        app_commands.Choice(name="🌀 الواقع البديل", value="alternate")
+    ])
+    @rate_limit("setup_world")
+    async def setup_world_command(
+        self,
+        interaction: discord.Interaction,
+        world: str,
+        channel: discord.TextChannel
+    ):
+        """تعيين قناة قصة لعالم محدد في هذا السيرفر"""
+
+        if not self.is_admin(interaction):
+            embed = discord.Embed(
+                title="❌ خطأ",
+                description="هذا الأمر للمشرفين فقط!",
+                color=0xe74c3c
+            )
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+            return
+
+        if interaction.guild is None:
+            await interaction.response.send_message("❌ هذا الأمر يعمل داخل السيرفر فقط", ephemeral=True)
+            return
+
+        saved = await self.bot.db.set_world_channel(
+            interaction.guild.id,
+            world,
+            channel.id,
+            interaction.user.id
+        )
+
+        if not saved:
+            await interaction.response.send_message("❌ فشل حفظ الإعداد، حاول مرة أخرى", ephemeral=True)
+            return
+
+        embed = discord.Embed(
+            title="✅ تم حفظ إعداد العالم",
+            description=(
+                f"{WORLD_EMOJIS[world]} **{WORLD_NAMES[world]}**\n"
+                f"سيتم إرسال القصة في: {channel.mention}"
+            ),
+            color=0x2ecc71
+        )
+        await interaction.response.send_message(embed=embed, ephemeral=True)
+
+
+    @app_commands.command(name="show_world_setup", description="🗺️ عرض قنوات العوالم المضبوطة")
+    @rate_limit("show_world_setup")
+    async def show_world_setup_command(self, interaction: discord.Interaction):
+        """عرض إعدادات قنوات العوالم الحالية في السيرفر"""
+
+        if not self.is_admin(interaction):
+            embed = discord.Embed(
+                title="❌ خطأ",
+                description="هذا الأمر للمشرفين فقط!",
+                color=0xe74c3c
+            )
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+            return
+
+        if interaction.guild is None:
+            await interaction.response.send_message("❌ هذا الأمر يعمل داخل السيرفر فقط", ephemeral=True)
+            return
+
+        mapping = await self.bot.db.get_guild_world_channels(interaction.guild.id)
+
+        embed = discord.Embed(
+            title="🗺️ إعدادات قنوات العوالم",
+            description="خريطة العوالم الحالية في هذا السيرفر",
+            color=0x3498db
+        )
+
+        for world_id in ["fantasy", "retro", "future", "alternate"]:
+            channel_id = mapping.get(world_id)
+            channel = interaction.guild.get_channel(channel_id) if channel_id else None
+            channel_text = channel.mention if channel else "غير معيّنة"
+
+            embed.add_field(
+                name=f"{WORLD_EMOJIS[world_id]} {WORLD_NAMES[world_id]}",
+                value=channel_text,
+                inline=False
+            )
+
+        embed.set_footer(text="استخدم /setup_world لتعيين أو تعديل قناة أي عالم")
+        await interaction.response.send_message(embed=embed, ephemeral=True)
+
     # ============================================
     # أمر /إحصاءات - إحصاءات البوت
     # ============================================

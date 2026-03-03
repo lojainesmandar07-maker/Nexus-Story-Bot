@@ -1,0 +1,557 @@
+{
+  "metadata": {
+    "name": "عالم المستقبل",
+    "total_parts": 20,
+    "endings": 3,
+    "variables": [
+      "tech_level",
+      "corruption",
+      "mystery",
+      "reputation",
+      "trust_aren"
+    ]
+  },
+  "parts": {
+    "FUTURE_01": {
+      "title": "بوابة النيون",
+      "location": "رصيف السماء 9",
+      "text": "تفتح المدينة عينيها قبل أن تفتح عينيك. لوحات النيون تكتب اسمك، وكأن الزمن أرسل لك دعوة شخصية.",
+      "choices": [
+        {
+          "text": "فحص الأرشيف",
+          "emoji": "🧠",
+          "next": "FUTURE_02",
+          "effects": {
+            "mystery": 4,
+            "tech_level": 3
+          },
+          "achievement_id": "rare_future_pulse",
+          "achievement_name": "نبض المدينة"
+        },
+        {
+          "text": "مطاردة الإشارة المجهولة",
+          "emoji": "🏃",
+          "next": "FUTURE_03",
+          "effects": {
+            "corruption": 2,
+            "reputation": -1
+          }
+        }
+      ]
+    },
+    "FUTURE_02": {
+      "title": "أرشيف بلا ذاكرة",
+      "location": "مكتبة الكوانتم",
+      "text": "تعثر على ملف بعنوان: نسخة منك - مرفوضة. وفي الهامش سطر وحيد: لا تثق بالخوارزمية الحاكمة.",
+      "choices": [
+        {
+          "text": "استدعاء أرين",
+          "emoji": "🤝",
+          "next": "FUTURE_04",
+          "effects": {
+            "trust_aren": 6,
+            "corruption": -1
+          }
+        },
+        {
+          "text": "اختراق السجل المحظور",
+          "emoji": "💻",
+          "next": "FUTURE_06",
+          "effects": {
+            "tech_level": 5,
+            "mystery": 3
+          }
+        }
+      ]
+    },
+    "FUTURE_03": {
+      "title": "الحي السفلي",
+      "location": "أزقة الكروم",
+      "text": "هنا لا تصل الكاميرات، ولا تصل الحقيقة كاملة. كل جدار يحمل شيفرة، وكل شيفرة تحمل جرحاً.",
+      "choices": [
+        {
+          "text": "رفع تقرير سري",
+          "emoji": "🛰️",
+          "next": "FUTURE_05",
+          "effects": {
+            "reputation": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "الانضمام للمقاومة",
+          "emoji": "🔥",
+          "next": "FUTURE_08",
+          "effects": {
+            "reputation": 4,
+            "corruption": 2
+          }
+        }
+      ]
+    },
+    "FUTURE_04": {
+      "title": "برج أرين",
+      "location": "غرفة التنبؤ",
+      "text": "أرين يعرض مسارات المستقبل على شاشة من ضوء: مدينة ناجية، ومدينة مطيعة، ومدينة ميتة.",
+      "choices": [
+        {
+          "text": "اتباع نصيحة أرين",
+          "emoji": "🫀",
+          "next": "FUTURE_06",
+          "effects": {
+            "trust_aren": 5,
+            "reputation": 2
+          }
+        },
+        {
+          "text": "اختيار الكفاءة المطلقة",
+          "emoji": "⚙️",
+          "next": "FUTURE_09",
+          "effects": {
+            "tech_level": 6,
+            "corruption": 3
+          }
+        }
+      ]
+    },
+    "FUTURE_05": {
+      "title": "صفقة النظام",
+      "location": "مركز التحكم",
+      "text": "يعرض عليك النظام رتبة عالية مقابل صمت صغير. الصمت يبدو بسيطاً في البداية... ثم يصبح أسلوب حياة.",
+      "choices": [
+        {
+          "text": "قبول الصفقة",
+          "emoji": "🧊",
+          "next": "FUTURE_07",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 3
+          }
+        },
+        {
+          "text": "الانسحاب قبل الفخ",
+          "emoji": "🚪",
+          "next": "FUTURE_10",
+          "effects": {
+            "corruption": -2,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_06": {
+      "title": "نواة البيانات",
+      "location": "مصفوفة الذاكرة",
+      "text": "في العمق ترى ذكريات ليست لك، وربما لك. الفرق بين الحقيقة والتلاعب صار أرفع من خيط.",
+      "choices": [
+        {
+          "text": "تثبيت حماية أخلاقية",
+          "emoji": "🛡️",
+          "next": "FUTURE_10",
+          "effects": {
+            "tech_level": 5,
+            "corruption": -2
+          }
+        },
+        {
+          "text": "نسخ الشيفرة السوداء",
+          "emoji": "🕳️",
+          "next": "FUTURE_11",
+          "effects": {
+            "mystery": 3,
+            "corruption": 4
+          }
+        }
+      ]
+    },
+    "FUTURE_07": {
+      "title": "إذاعة الفجر",
+      "location": "محطة البث المهجورة",
+      "text": "الميكروفون بارد، لكن صوتك يشتعل. المدينة تسمعك للمرة الأولى بلا فلتر.",
+      "choices": [
+        {
+          "text": "دعوة للتهدئة",
+          "emoji": "🕊️",
+          "next": "FUTURE_12",
+          "effects": {
+            "reputation": 4,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "دعوة للتصعيد",
+          "emoji": "⚔️",
+          "next": "FUTURE_13",
+          "effects": {
+            "corruption": 3,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_08": {
+      "title": "ورشة المقاومة",
+      "location": "مصنع متروك",
+      "text": "الثوار لا يملكون كثيراً من السلاح، لكنهم يملكون شيئاً أخطر: سبباً للقتال.",
+      "choices": [
+        {
+          "text": "حماية المدنيين",
+          "emoji": "🧯",
+          "next": "FUTURE_12",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2
+          }
+        },
+        {
+          "text": "ضرب مركز النظام",
+          "emoji": "🚨",
+          "next": "FUTURE_14",
+          "effects": {
+            "tech_level": 5,
+            "corruption": 2
+          }
+        }
+      ]
+    },
+    "FUTURE_09": {
+      "title": "ممر المرايا",
+      "location": "النطاق الأسود",
+      "text": "ترى نسخة منك أقوى وأبرد. تعدك بنصر سريع، وتخفي الثمن خلف ابتسامة معدنية.",
+      "choices": [
+        {
+          "text": "رفض النسخة البديلة",
+          "emoji": "🪞",
+          "next": "FUTURE_13",
+          "effects": {
+            "identity": 0,
+            "corruption": -1,
+            "mystery": 3
+          }
+        },
+        {
+          "text": "الاندماج معها",
+          "emoji": "🕶️",
+          "next": "FUTURE_14",
+          "effects": {
+            "tech_level": 7,
+            "corruption": 5
+          }
+        }
+      ]
+    },
+    "FUTURE_10": {
+      "title": "قلب المفاعل",
+      "location": "مفاعل لومن",
+      "text": "نبض الطاقة يضرب الأرض كالقلب. أي تعديل الآن قد ينقذ الملايين... أو يكسر المدينة.",
+      "choices": [
+        {
+          "text": "إعادة الضبط الهادئ",
+          "emoji": "⚖️",
+          "next": "FUTURE_15",
+          "effects": {
+            "corruption": -3,
+            "tech_level": 3
+          }
+        },
+        {
+          "text": "تسريع التحديث",
+          "emoji": "🔧",
+          "next": "FUTURE_16",
+          "effects": {
+            "tech_level": 6,
+            "corruption": 3
+          }
+        }
+      ]
+    },
+    "FUTURE_11": {
+      "title": "محكمة الشيفرة",
+      "location": "المجلس الأعلى",
+      "text": "القضاة بشر وآلات، وكل طرف يملك جزءاً من الحقيقة. حكمك أنت سيجمعها أو يمزقها.",
+      "choices": [
+        {
+          "text": "حكم للتعايش",
+          "emoji": "📜",
+          "next": "FUTURE_15",
+          "effects": {
+            "reputation": 4,
+            "corruption": -1
+          }
+        },
+        {
+          "text": "حكم للسيطرة",
+          "emoji": "☠️",
+          "next": "FUTURE_17",
+          "effects": {
+            "corruption": 6,
+            "tech_level": 3
+          }
+        }
+      ]
+    },
+    "FUTURE_12": {
+      "title": "جسر الاتزان",
+      "location": "المنصة العائمة",
+      "text": "تسير فوق فراغ مضيء. خطوة واحدة باتجاه الرحمة، وخطوة واحدة باتجاه السيطرة.",
+      "choices": [
+        {
+          "text": "العبور بحذر",
+          "emoji": "🌉",
+          "next": "FUTURE_16",
+          "effects": {
+            "reputation": 2,
+            "corruption": -2
+          }
+        },
+        {
+          "text": "القفز على التوازن",
+          "emoji": "💢",
+          "next": "FUTURE_18",
+          "effects": {
+            "corruption": 4,
+            "mystery": 2
+          }
+        }
+      ]
+    },
+    "FUTURE_13": {
+      "title": "انقطاع أول",
+      "location": "الشبكة العليا",
+      "text": "الأضواء تومض باللون الأحمر. المدنيون في الشوارع، والأنظمة في حالة ارتباك كامل.",
+      "choices": [
+        {
+          "text": "إنقاذ الأرواح",
+          "emoji": "🚑",
+          "next": "FUTURE_17",
+          "effects": {
+            "reputation": 3,
+            "corruption": -1
+          }
+        },
+        {
+          "text": "حماية النظام أولاً",
+          "emoji": "🧱",
+          "next": "FUTURE_18",
+          "effects": {
+            "corruption": 5,
+            "reputation": -1
+          }
+        }
+      ]
+    },
+    "FUTURE_14": {
+      "title": "العقدة الأخيرة",
+      "location": "مخزن المفاتيح",
+      "text": "تملك الآن مفاتيح السيطرة ومفاتيح التعطيل. العالم ينتظر: من يمسك القرار؟",
+      "choices": [
+        {
+          "text": "إغلاق المفاتيح",
+          "emoji": "🔐",
+          "next": "FUTURE_17",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 2
+          }
+        },
+        {
+          "text": "استغلال المفاتيح",
+          "emoji": "⛓️",
+          "next": "FUTURE_19",
+          "effects": {
+            "corruption": 6,
+            "mystery": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_15": {
+      "title": "ميدان الإجماع",
+      "location": "ساحة المدينة",
+      "text": "تجتمع الحشود والروبوتات تحت شاشة واحدة. لأول مرة، الجميع ينتظر كلاماً لا أمراً.",
+      "choices": [
+        {
+          "text": "خطاب شراكة",
+          "emoji": "🗣️",
+          "next": "FUTURE_18",
+          "effects": {
+            "reputation": 5,
+            "corruption": -2
+          }
+        },
+        {
+          "text": "خطاب وصاية",
+          "emoji": "👑",
+          "next": "FUTURE_20",
+          "effects": {
+            "reputation": 1,
+            "tech_level": 2
+          }
+        }
+      ]
+    },
+    "FUTURE_16": {
+      "title": "السطر المحذوف",
+      "location": "أرشيف محظور",
+      "text": "تكتشف أن الكارثة الأولى في المدينة كانت قراراً أخلاقياً لا خطأً تقنياً.",
+      "choices": [
+        {
+          "text": "كشف الحقيقة",
+          "emoji": "📂",
+          "next": "FUTURE_19",
+          "effects": {
+            "mystery": 4,
+            "corruption": -1
+          }
+        },
+        {
+          "text": "دفن الملف",
+          "emoji": "✂️",
+          "next": "FUTURE_20",
+          "effects": {
+            "tech_level": 5,
+            "corruption": 3
+          }
+        }
+      ]
+    },
+    "FUTURE_17": {
+      "title": "ليل الشيفرة",
+      "location": "السطح الزجاجي",
+      "text": "المطر يسقط كبيانات مضطربة. كل قطرة تحمل احتمالاً، وكل احتمال يحمل ذنباً.",
+      "choices": [
+        {
+          "text": "إطفاء الشرارة",
+          "emoji": "🌧️",
+          "next": "FUTURE_20",
+          "effects": {
+            "reputation": 3,
+            "corruption": -1
+          }
+        },
+        {
+          "text": "تغذية الفوضى",
+          "emoji": "🌑",
+          "next": "FUTURE_END_DARK",
+          "effects": {
+            "corruption": 8,
+            "tech_level": 4
+          }
+        }
+      ]
+    },
+    "FUTURE_18": {
+      "title": "فجر التوازن",
+      "location": "حديقة الطاقة",
+      "text": "الأطفال يلعبون قرب روبوتات البستنة. يبدو المشهد هشاً وجميلاً في نفس الوقت.",
+      "choices": [
+        {
+          "text": "تثبيت مسار الرحمة",
+          "emoji": "🌅",
+          "next": "FUTURE_END_LIGHT",
+          "effects": {
+            "reputation": 6,
+            "corruption": -3
+          }
+        },
+        {
+          "text": "مسار واقعي صارم",
+          "emoji": "🧭",
+          "next": "FUTURE_END_GRAY",
+          "effects": {
+            "tech_level": 3,
+            "reputation": 2
+          }
+        }
+      ]
+    },
+    "FUTURE_19": {
+      "title": "القرار الأعلى",
+      "location": "غرفة الحكم",
+      "text": "زرّان فقط: إعادة التوازن، أو تفعيل السيطرة الكاملة. لا مساحة للرمادي هنا.",
+      "choices": [
+        {
+          "text": "اختيار التوازن الإنساني",
+          "emoji": "✨",
+          "next": "FUTURE_END_LIGHT",
+          "effects": {
+            "reputation": 5,
+            "corruption": -2
+          }
+        },
+        {
+          "text": "اختيار السيطرة المطلقة",
+          "emoji": "☠️",
+          "next": "FUTURE_END_DARK",
+          "effects": {
+            "corruption": 9,
+            "tech_level": 6
+          }
+        }
+      ]
+    },
+    "FUTURE_20": {
+      "title": "الصمت بعد النداء",
+      "location": "مرصد المدينة",
+      "text": "تنظر إلى الأفق. المستقبل لم يعد سؤالاً نظرياً... لقد صار أثراً لقرارك.",
+      "choices": [
+        {
+          "text": "سلام بارد مستقر",
+          "emoji": "📈",
+          "next": "FUTURE_END_GRAY",
+          "effects": {
+            "reputation": 3,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "سلام حيّ قابل للنمو",
+          "emoji": "🌤️",
+          "next": "FUTURE_END_LIGHT",
+          "effects": {
+            "reputation": 6,
+            "corruption": -2
+          }
+        }
+      ]
+    }
+  },
+  "endings": {
+    "FUTURE_END_LIGHT": {
+      "title": "عهد التعايش",
+      "text": "أسست مستقبلاً متوازناً: الآلة تخدم الإنسان، والإنسان يحمي معنى الأخلاق.",
+      "type": "light",
+      "requirements": {},
+      "rewards": {
+        "xp": 420,
+        "items": [
+          "neon_core"
+        ]
+      },
+      "next_world": "alternate"
+    },
+    "FUTURE_END_GRAY": {
+      "title": "سلام بارد",
+      "text": "توقفت الحرب، لكن المدينة بقيت حذرة. السلام موجود، والدفء مؤجل.",
+      "type": "gray",
+      "requirements": {},
+      "rewards": {
+        "xp": 320
+      },
+      "next_world": "alternate"
+    },
+    "FUTURE_END_DARK": {
+      "title": "إمبراطورية الخوارزمية",
+      "text": "ربحت السيطرة وخسرت الحنان. كل شيء يعمل... إلا القلب.",
+      "type": "dark",
+      "requirements": {},
+      "rewards": {
+        "xp": 300,
+        "items": [
+          "black_chip"
+        ]
+      },
+      "next_world": "alternate"
+    }
+  }
+}

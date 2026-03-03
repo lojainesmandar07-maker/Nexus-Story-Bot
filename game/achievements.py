@@ -764,6 +764,53 @@ ENDING_ACHIEVEMENTS = [
 ]
 
 # ============================================
+# إنجازات الخيارات النادرة 🌟
+# ============================================
+
+RARE_CHOICE_ACHIEVEMENTS = [
+    Achievement(
+        id="rare_fantasy_oath",
+        name="قسم الحارس الأول",
+        description="اخترت طريق الوعد منذ أول مفترق في الفانتازيا",
+        emoji="🛡️",
+        world="fantasy",
+        xp_reward=120,
+        hidden=True,
+        order=40
+    ),
+    Achievement(
+        id="rare_retro_truth",
+        name="اعتراف بلا أقنعة",
+        description="واجهت حقيقة الماضي في لحظة نادرة",
+        emoji="🕯️",
+        world="retro",
+        xp_reward=120,
+        hidden=True,
+        order=41
+    ),
+    Achievement(
+        id="rare_future_pulse",
+        name="نبض المدينة",
+        description="سمعت نبض المستقبل واخترت الرحمة تحت الضغط",
+        emoji="💓",
+        world="future",
+        xp_reward=120,
+        hidden=True,
+        order=42
+    ),
+    Achievement(
+        id="rare_alternate_self",
+        name="مرآة الذات الكاملة",
+        description="اتخذت خياراً نادراً في مواجهة ذاتك البديلة",
+        emoji="🪞",
+        world="alternate",
+        xp_reward=120,
+        hidden=True,
+        order=43
+    )
+]
+
+# ============================================
 # إنجازات سرية خاصة
 # ============================================
 
@@ -851,6 +898,9 @@ for ach in ALTERNATE_ACHIEVEMENTS:
 
 # إضافة إنجازات عامة
 for ach in GENERAL_ACHIEVEMENTS:
+    ALL_ACHIEVEMENTS[ach.id] = ach
+
+for ach in RARE_CHOICE_ACHIEVEMENTS:
     ALL_ACHIEVEMENTS[ach.id] = ach
 
 # إضافة إنجازات النهايات
