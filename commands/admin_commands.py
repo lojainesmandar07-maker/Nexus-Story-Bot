@@ -426,7 +426,7 @@ class AdminCommands(commands.Cog):
         interaction: discord.Interaction,
         الرسالة: str
     ):
-        """إرسال رسالة خاصة لجميع اللاعبين"""
+        """إرسال رسالة خاص لجميع اللاعبين"""
         
         if not self.is_owner(interaction):
             embed = discord.Embed(
