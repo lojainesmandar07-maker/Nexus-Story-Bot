@@ -1,0 +1,1325 @@
+{
+  "metadata": {
+    "name": "عالم المستقبل",
+    "total_parts": 32,
+    "endings": 4,
+    "variables": [
+      "tech_level",
+      "corruption",
+      "mystery",
+      "reputation",
+      "trust_aren"
+    ]
+  },
+  "parts": {
+    "FUTURE_001": {
+      "title": "مشهد 001: نبض القرار",
+      "location": "الأنفاق الكهروضوئية",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_002",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_003",
+          "effects": {
+            "tech_level": 3,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_004",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_002": {
+      "title": "مشهد 002: نبض القرار",
+      "location": "برج الإشارة",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_003",
+          "effects": {
+            "reputation": 4,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_004",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 1,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_005",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_003": {
+      "title": "مشهد 003: نبض القرار",
+      "location": "مصفوفة السجلات",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_004",
+          "effects": {
+            "reputation": 2,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "",
+          "next": "FUTURE_005",
+          "effects": {
+            "tech_level": 5,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_006",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_004": {
+      "title": "مشهد 004: نبض القرار",
+      "location": "رصيف الغيوم",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_005",
+          "effects": {
+            "reputation": 3,
+            "corruption": -1,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_006",
+          "effects": {
+            "tech_level": 2,
+            "corruption": 1,
+            "mystery": 2
+          },
+          "chance": 68,
+          "fail_next": "FUTURE_005"
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_007",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_005": {
+      "title": "مشهد 005: نبض القرار",
+      "location": "الحي العلوي",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_006",
+          "effects": {
+            "reputation": 4,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_007",
+          "effects": {
+            "tech_level": 3,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_008",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_006": {
+      "title": "مشهد 006: نبض القرار",
+      "location": "الأنفاق الكهروضوئية",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_007",
+          "effects": {
+            "reputation": 2,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_008",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 1,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_009",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        },
+        {
+          "text": "مساومة السوق الأسود على مفاتيح الطاقة",
+          "emoji": "🕶️",
+          "next": "FUTURE_010",
+          "effects": {
+            "corruption": 3,
+            "mystery": 2,
+            "reputation": -1
+          },
+          "achievement_id": "future_rare_blackmarket",
+          "achievement_name": "تاجر الصفر"
+        }
+      ]
+    },
+    "FUTURE_007": {
+      "title": "مشهد 007: نبض القرار",
+      "location": "برج الإشارة",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_008",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_009",
+          "effects": {
+            "tech_level": 5,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_010",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_008": {
+      "title": "مشهد 008: نبض القرار",
+      "location": "مصفوفة السجلات",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_009",
+          "effects": {
+            "reputation": 4,
+            "corruption": -1,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_010",
+          "effects": {
+            "tech_level": 2,
+            "corruption": 1,
+            "mystery": 2
+          },
+          "chance": 68,
+          "fail_next": "FUTURE_009"
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_011",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_009": {
+      "title": "مشهد 009: نبض القرار",
+      "location": "رصيف الغيوم",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_010",
+          "effects": {
+            "reputation": 2,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_011",
+          "effects": {
+            "tech_level": 3,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_012",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_010": {
+      "title": "مشهد 010: نبض القرار",
+      "location": "الحي العلوي",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_011",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_012",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 1,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_013",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_011": {
+      "title": "مشهد 011: نبض القرار",
+      "location": "الأنفاق الكهروضوئية",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_012",
+          "effects": {
+            "reputation": 4,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_013",
+          "effects": {
+            "tech_level": 5,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_014",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_012": {
+      "title": "مشهد 012: نبض القرار",
+      "location": "برج الإشارة",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_013",
+          "effects": {
+            "reputation": 2,
+            "corruption": -1,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_014",
+          "effects": {
+            "tech_level": 2,
+            "corruption": 1,
+            "mystery": 2
+          },
+          "chance": 68,
+          "fail_next": "FUTURE_013"
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_015",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        },
+        {
+          "text": "مساومة السوق الأسود على مفاتيح الطاقة",
+          "emoji": "🕶️",
+          "next": "FUTURE_016",
+          "effects": {
+            "corruption": 3,
+            "mystery": 2,
+            "reputation": -1
+          },
+          "achievement_id": "future_rare_blackmarket",
+          "achievement_name": "تاجر الصفر"
+        }
+      ]
+    },
+    "FUTURE_013": {
+      "title": "مشهد 013: نبض القرار",
+      "location": "مصفوفة السجلات",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_014",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_015",
+          "effects": {
+            "tech_level": 3,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_016",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_014": {
+      "title": "مشهد 014: نبض القرار",
+      "location": "رصيف الغيوم",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_015",
+          "effects": {
+            "reputation": 4,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_016",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 1,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_017",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_015": {
+      "title": "مشهد 015: نبض القرار",
+      "location": "الحي العلوي",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_016",
+          "effects": {
+            "reputation": 2,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_017",
+          "effects": {
+            "tech_level": 5,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_018",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_016": {
+      "title": "مشهد 016: نبض القرار",
+      "location": "الأنفاق الكهروضوئية",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_017",
+          "effects": {
+            "reputation": 3,
+            "corruption": -1,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_018",
+          "effects": {
+            "tech_level": 2,
+            "corruption": 1,
+            "mystery": 2
+          },
+          "chance": 68,
+          "fail_next": "FUTURE_017"
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_019",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_017": {
+      "title": "مشهد 017: نبض القرار",
+      "location": "برج الإشارة",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_018",
+          "effects": {
+            "reputation": 4,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_019",
+          "effects": {
+            "tech_level": 3,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_020",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_018": {
+      "title": "مشهد 018: نبض القرار",
+      "location": "مصفوفة السجلات",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_019",
+          "effects": {
+            "reputation": 2,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_020",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 1,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_021",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        },
+        {
+          "text": "مساومة السوق الأسود على مفاتيح الطاقة",
+          "emoji": "🕶️",
+          "next": "FUTURE_022",
+          "effects": {
+            "corruption": 3,
+            "mystery": 2,
+            "reputation": -1
+          },
+          "achievement_id": "future_rare_blackmarket",
+          "achievement_name": "تاجر الصفر"
+        }
+      ]
+    },
+    "FUTURE_019": {
+      "title": "مشهد 019: نبض القرار",
+      "location": "رصيف الغيوم",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_020",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_021",
+          "effects": {
+            "tech_level": 5,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_022",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_020": {
+      "title": "مشهد 020: نبض القرار",
+      "location": "الحي العلوي",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_021",
+          "effects": {
+            "reputation": 4,
+            "corruption": -1,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_022",
+          "effects": {
+            "tech_level": 2,
+            "corruption": 1,
+            "mystery": 2
+          },
+          "chance": 68,
+          "fail_next": "FUTURE_021"
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_023",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_021": {
+      "title": "مشهد 021: نبض القرار",
+      "location": "الأنفاق الكهروضوئية",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_022",
+          "effects": {
+            "reputation": 2,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_023",
+          "effects": {
+            "tech_level": 3,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_024",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_022": {
+      "title": "مشهد 022: نبض القرار",
+      "location": "برج الإشارة",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_023",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_024",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 1,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_025",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_023": {
+      "title": "مشهد 023: نبض القرار",
+      "location": "مصفوفة السجلات",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_024",
+          "effects": {
+            "reputation": 4,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_025",
+          "effects": {
+            "tech_level": 5,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_026",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_024": {
+      "title": "مشهد 024: نبض القرار",
+      "location": "رصيف الغيوم",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_025",
+          "effects": {
+            "reputation": 2,
+            "corruption": -1,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_026",
+          "effects": {
+            "tech_level": 2,
+            "corruption": 1,
+            "mystery": 2
+          },
+          "chance": 68,
+          "fail_next": "FUTURE_025"
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_027",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        },
+        {
+          "text": "مساومة السوق الأسود على مفاتيح الطاقة",
+          "emoji": "🕶️",
+          "next": "FUTURE_028",
+          "effects": {
+            "corruption": 3,
+            "mystery": 2,
+            "reputation": -1
+          },
+          "achievement_id": "future_rare_blackmarket",
+          "achievement_name": "تاجر الصفر"
+        }
+      ]
+    },
+    "FUTURE_025": {
+      "title": "مشهد 025: نبض القرار",
+      "location": "الحي العلوي",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_026",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_027",
+          "effects": {
+            "tech_level": 3,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_028",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_026": {
+      "title": "مشهد 026: نبض القرار",
+      "location": "الأنفاق الكهروضوئية",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_027",
+          "effects": {
+            "reputation": 4,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_028",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 1,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_029",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_027": {
+      "title": "مشهد 027: نبض القرار",
+      "location": "برج الإشارة",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_028",
+          "effects": {
+            "reputation": 2,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_029",
+          "effects": {
+            "tech_level": 5,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_030",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_028": {
+      "title": "مشهد 028: نبض القرار",
+      "location": "مصفوفة السجلات",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_029",
+          "effects": {
+            "reputation": 3,
+            "corruption": -1,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_030",
+          "effects": {
+            "tech_level": 2,
+            "corruption": 1,
+            "mystery": 2
+          },
+          "chance": 68,
+          "fail_next": "FUTURE_029"
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_031",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_029": {
+      "title": "مشهد 029: نبض القرار",
+      "location": "رصيف الغيوم",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_030",
+          "effects": {
+            "reputation": 4,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_031",
+          "effects": {
+            "tech_level": 3,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_032",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_030": {
+      "title": "مشهد 030: نبض القرار",
+      "location": "الحي العلوي",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_031",
+          "effects": {
+            "reputation": 2,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_032",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 1,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_032",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        },
+        {
+          "text": "مساومة السوق الأسود على مفاتيح الطاقة",
+          "emoji": "🕶️",
+          "next": "FUTURE_032",
+          "effects": {
+            "corruption": 3,
+            "mystery": 2,
+            "reputation": -1
+          },
+          "achievement_id": "future_rare_blackmarket",
+          "achievement_name": "تاجر الصفر"
+        }
+      ]
+    },
+    "FUTURE_031": {
+      "title": "مشهد 031: نبض القرار",
+      "location": "الأنفاق الكهروضوئية",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_032",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_END_DAWN",
+          "effects": {
+            "tech_level": 5,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_END_BALANCE",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    },
+    "FUTURE_032": {
+      "title": "مشهد 032: نبض القرار",
+      "location": "برج الإشارة",
+      "text": "المدينة تتذكر كل قرار تتخذه. التحالفات تتحرك، والأنظمة تتعلم، والناس يدفعون الثمن أو يجنون الأمل.",
+      "choices": [
+        {
+          "text": "تفاوض مع المجلس المدني",
+          "emoji": "🤝",
+          "next": "FUTURE_END_DAWN",
+          "effects": {
+            "reputation": 4,
+            "corruption": -1,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اختراق طبقة التحكم",
+          "emoji": "💻",
+          "next": "FUTURE_END_STEEL",
+          "effects": {
+            "tech_level": 2,
+            "corruption": 1,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "إنقاذ حيٍّ معزول قبل الانهيار",
+          "emoji": "🚑",
+          "next": "FUTURE_END_BALANCE",
+          "effects": {
+            "reputation": 3,
+            "trust_aren": 2,
+            "tech_level": 1
+          }
+        }
+      ]
+    }
+  },
+  "endings": {
+    "FUTURE_END_DAWN": {
+      "title": "فجر التعايش",
+      "text": "بنيت مدينة تتصالح فيها التقنية مع الكرامة الإنسانية.",
+      "type": "light",
+      "requirements": {},
+      "rewards": {
+        "xp": 650,
+        "items": [
+          "dawn-core"
+        ]
+      },
+      "next_world": "alternate"
+    },
+    "FUTURE_END_STEEL": {
+      "title": "عقيدة الفولاذ",
+      "text": "فرضت النظام بالقوة؛ الفوضى انتهت لكن الخوف بقي.",
+      "type": "dark",
+      "requirements": {},
+      "rewards": {
+        "xp": 540,
+        "items": [
+          "steel-seal"
+        ]
+      },
+      "next_world": "alternate"
+    },
+    "FUTURE_END_BALANCE": {
+      "title": "توازن صعب",
+      "text": "لا أحد ربح كليًا ولا أحد خسر كليًا، لكنها بداية قابلة للإصلاح.",
+      "type": "gray",
+      "requirements": {},
+      "rewards": {
+        "xp": 590
+      },
+      "next_world": "alternate"
+    },
+    "FUTURE_END_SHADOW": {
+      "title": "تحالف الظل",
+      "text": "اخترت الطرق الملتوية وأنقذت المدينة بثمن أخلاقي ثقيل.",
+      "type": "shadow",
+      "requirements": {},
+      "rewards": {
+        "xp": 520,
+        "items": [
+          "shadow-key"
+        ]
+      },
+      "next_world": "alternate"
+    }
+  }
+}
