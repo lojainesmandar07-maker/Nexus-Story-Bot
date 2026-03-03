@@ -272,7 +272,7 @@ class StoryCommands(commands.Cog):
     
     @app_commands.command(name="قراراتي", description="📜 اعرض آخر قراراتك في القصة")
     @app_commands.describe(
-        العدد="عدد القرارات (1-20, افتراضي 10)"
+        العدد="عدد لقرارات (1-20, افتراضي 10)"
     )
     @rate_limit("قراراتي")
     async def history_command(
