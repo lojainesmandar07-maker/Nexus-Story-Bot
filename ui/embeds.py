@@ -59,9 +59,34 @@ class NexusEmbeds:
         # إضافة إحصائيات اللاعب
         stats = self._create_stats_field(world_id, player_data)
         embed.add_field(name="📊 حالتك", value=stats, inline=False)
+
+        # معاينة الخيارات المتاحة (الاختيار الفعلي عبر الأزرار)
+        choices = part_data.get('choices', [])
+        if choices:
+            preview = []
+            for idx, choice in enumerate(choices[:4], 1):
+                emoji = choice.get('emoji', '•')
+                text = choice.get('text', 'خيار')
+                preview.append(f"{idx}. {emoji} {text}")
+            embed.add_field(name="🧭 الخيارات المتاحة", value="\n".join(preview), inline=False)
         
-        # إضافة تذييل
+        # سطر سينمائي قصير يزيد الإحساس بالمشهد
+        tone = self._get_scene_tone(part_data)
+        embed.add_field(name="🎬 نبضة المشهد", value=tone, inline=False)
+
+        # شريط التقدم داخل العالم
         part_id = part_data.get('id', 'unknown')
+        part_number = self._extract_part_number(part_id)
+        world_total = self.bot.story_loader.WORLDS.get(world_id, {}).get('total_parts', 1)
+        progress_bar = create_progress_bar(part_number, world_total, 12)
+        progress_percent = int((part_number / max(world_total, 1)) * 100)
+        embed.add_field(
+            name="🧭 تقدمك في العالم",
+            value=f"{progress_bar} **{progress_percent}%** (الجزء {part_number}/{world_total})",
+            inline=False
+        )
+
+        # إضافة تذييل
         embed.set_footer(text=f"{world_name} • {part_id} • اختر بحكمة")
         
         return embed
@@ -682,6 +707,28 @@ class NexusEmbeds:
         embed.set_footer(text="نتمنى لك رحلة ممتعة في النيكسس!")
         
         return embed
+
+
+    def _extract_part_number(self, part_id: str) -> int:
+        """استخراج رقم الجزء من المعرف مثل FANTASY_12"""
+        try:
+            return int(str(part_id).split('_')[-1])
+        except Exception:
+            return 1
+
+    def _get_scene_tone(self, part_data: Dict) -> str:
+        """إضافة سطر نغمة سينمائية خفيف حسب محتوى الجزء"""
+        text = f"{part_data.get('title','')} {part_data.get('text','')}"
+        low = text.lower()
+
+        if any(k in low for k in ['ظلام', 'خطر', 'دم', 'انقطاع', 'هاوي']):
+            return "الهواء ثقيل... والقرار التالي قد يغيّر كل شيء."
+        if any(k in low for k in ['نور', 'أمل', 'فجر', 'سلام', 'تعايش']):
+            return "ومضة أمل تتسلل بين الشقوق... لكن الأمل وحده لا يكفي."
+        if any(k in low for k in ['سر', 'مجهول', 'مرآة', 'ذاكرة', 'شيفرة']):
+            return "كل إجابة هنا تفتح باب سؤال جديد."
+        return "المشهد هادئ ظاهرياً... لكن العوالم تراقب اختيارك."
+
 
 
 # ============================================
