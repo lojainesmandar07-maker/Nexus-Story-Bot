@@ -160,30 +160,32 @@ class NexusBot(commands.Bot):
         logger.info("✅ البوت جاهز!")
     
     async def load_extensions(self):
-        """تحميل كل الإضافات من مجلد commands"""
+        """تحميل كل الإضافات (Cogs)"""
         loaded = 0
-        failed = []
+        failed = 0
         
         for extension in self.initial_extensions:
             try:
                 await self.load_extension(extension)
                 loaded += 1
-                logger.info(f"✅ تم تحميل {extension}")
+                logger.info(f"✅ تم تحميل: {extension}")
             except Exception as e:
-                failed.append(extension)
+                failed += 1
                 logger.error(f"❌ فشل تحميل {extension}: {e}")
         
-        if failed:
-            logger.warning(f"⚠️ {len(failed)} إضافة فشلت: {', '.join(failed)}")
-        logger.info(f"✅ تم تحميل {loaded}/{len(self.initial_extensions)} إضافة")
+        logger.info(f"📦 تم تحميل {loaded} إضافة، فشل {failed}")
     
     async def on_ready(self):
-        """يتم استدعاؤها عندما يكون البوت جاهزاً"""
-        logger.info(f"✅ {self.user} متصل وجاهز!")
-        logger.info(f"🆔 ID: {self.user.id}")
-        logger.info(f"🌐 في {len(self.guilds)} سيرفر")
+        """يتم استدعاؤها عند اتصال البوت بنجاح"""
+        logger.info("=" * 50)
+        logger.info(f"🚀 {self.bot_name} متصل الآن!")
+        logger.info(f"👤 Logged in as: {self.user}")
+        logger.info(f"🆔 Bot ID: {self.user.id}")
+        logger.info(f"🌐 Connected to {len(self.guilds)} servers")
+        logger.info(f"📈 Version: {self.version}")
+        logger.info("=" * 50)
         
-        # تحديث الحالة
+        # تحديث حالة البوت
         activity_text = config.get('bot.activity_status', '🌍 النيكسس ينتظرك | /ابدأ')
         await self.change_presence(
             activity=discord.Game(name=activity_text)
