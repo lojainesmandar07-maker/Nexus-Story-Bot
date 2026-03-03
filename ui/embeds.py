@@ -371,7 +371,7 @@ class NexusEmbeds:
                         inline=True
                     )
         else:
-            embed.description = "لا توجد إنجازات بعد. استمر في اللعب!"
+            embed.description = "لا توجد إنجاات بعد. استمر في اللعب!"
         
         return embed
     
@@ -475,7 +475,7 @@ class NexusEmbeds:
         )
     
     def info_embed(self, title: str, message: str) -> discord.Embed:
-        """رسالة معلومات"""
+        """رسالة معلمات"""
         return discord.Embed(
             title=f"ℹ️ {title}",
             description=message,
@@ -721,7 +721,7 @@ class NexusEmbeds:
         text = f"{part_data.get('title','')} {part_data.get('text','')}"
         low = text.lower()
 
-        if any(k in low for k in ['ظلام', 'خطر', 'دم', 'انقطاع', 'هاوي']):
+        if any(k in low for k in ['ظلام', 'خطر', 'دم', 'انقطاع', 'هاوية']):
             return "الهواء ثقيل... والقرار التالي قد يغيّر كل شيء."
         if any(k in low for k in ['نور', 'أمل', 'فجر', 'سلام', 'تعايش']):
             return "ومضة أمل تتسلل بين الشقوق... لكن الأمل وحده لا يكفي."
