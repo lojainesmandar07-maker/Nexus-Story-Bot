@@ -240,11 +240,13 @@ class NexusBot(commands.Bot):
                     timestamp=datetime.now()
                 )
                 
-                # إضافة حقول للعوالم
+                # إضافة حقول للعوالم (المفاتيح الأساسية فقط بدون المرادفات)
                 worlds_text = ""
-                for world_id, info in self.world_names.items():
-                    if world_id != "general":
-                        worlds_text += f"{self.world_emojis[world_id]} **{info}**\n"
+                canonical_worlds = ["fantasy", "retro", "future", "alternate"]
+                for world_id in canonical_worlds:
+                    world_name = self.world_names.get(world_id, world_id)
+                    world_emoji = self.world_emojis.get(world_id, "🌍")
+                    worlds_text += f"{world_emoji} **{world_name}**\n"
                 
                 embed.add_field(
                     name="🌍 العوالم المتاحة",
