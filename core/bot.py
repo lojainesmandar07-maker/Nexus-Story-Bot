@@ -176,20 +176,19 @@ class NexusBot(commands.Bot):
         if failed:
             logger.warning(f"⚠️ {len(failed)} إضافة فشلت: {', '.join(failed)}")
         logger.info(f"✅ تم تحميل {loaded}/{len(self.initial_extensions)} إضافة")
-
+    
     async def sync_guild_commands(self):
-        """تنظيف أي أوامر Guild قديمة/مكررة وترك Global فقط."""
-        cleaned_count = 0
+        """نسخ أوامر الـ Global إلى كل Guild لمزامنة فورية (خصوصاً /ابدأ و/استمر)."""
+        synced_count = 0
         for guild in self.guilds:
             try:
-                # لا ننسخ Global إلى Guild حتى لا تظهر نسختان من نفس الأمر.
-                # هذه المزامنة تنظف أي أوامر Guild قديمة/مكررة فقط.
+                self.tree.copy_global_to(guild=guild)
                 await self.tree.sync(guild=guild)
-                cleaned_count += 1
+                synced_count += 1
             except Exception as e:
-                logger.warning(f"⚠️ فشل تنظيف أوامر السيرفر {guild.id}: {e}")
-        if cleaned_count:
-            logger.info(f"✅ تم تنظيف أوامر Guild في {cleaned_count} سيرفر")
+                logger.warning(f"⚠️ فشل مزامنة أوامر السيرفر {guild.id}: {e}")
+        if synced_count:
+            logger.info(f"✅ تمت مزامنة أوامر Guild في {synced_count} سيرفر")
 
     async def on_ready(self):
         """يتم استدعاؤها عندما يكون البو جاهزاً"""
@@ -219,10 +218,9 @@ class NexusBot(commands.Bot):
         """عند دخول البوت إلى سيرفر جديد"""
         logger.info(f"✅ انضممت إلى سيرفر جديد: {guild.name} (ID: {guild.id})")
         try:
-            self.tree.clear_commands(guild=guild)
             self.tree.copy_global_to(guild=guild)
             await self.tree.sync(guild=guild)
-            logger.info(f"✅ تمت مزامنة أوامر السلاش للسيرفر الجديد {guild.id}")
+            logger.info(f"✅ تمت مزامنة أوامر Guild للسيرفر الجديد {guild.id}")
         except Exception as e:
             logger.warning(f"⚠️ فشل مزامنة السيرفر الجديد {guild.id}: {e}")
         await self.send_welcome_message(guild)
@@ -260,153 +258,138 @@ class NexusBot(commands.Bot):
                         "**🎮 للبدء:** استخدم `/ابدأ`\n"
                         "**📚 للمساعدة:** استخدم `/مساعدة`"
                     ),
-                    color=self.world_colors["general"],
-                    timestamp=datetime.now()
+                    color=self.world_colors["general"]
                 )
                 
-                # إضافة حقول للعوالم (المفاتيح الأساسية فقط بدون المرادفات)
-                worlds_text = ""
+                # قائمة العوالم بشكل موحد وآمن
                 canonical_worlds = ["fantasy", "retro", "future", "alternate"]
+                worlds_text = ""
                 for world_id in canonical_worlds:
-                    world_name = self.world_names.get(world_id, world_id)
-                    world_emoji = self.world_emojis.get(world_id, "🌍")
-                    worlds_text += f"{world_emoji} **{world_name}**\n"
-                
+                    emoji = self.world_emojis.get(world_id, "🌍")
+                    name = self.world_names.get(world_id, world_id)
+                    worlds_text += f"{emoji} {name}\n"
+
                 embed.add_field(
                     name="🌍 العوالم المتاحة",
                     value=worlds_text,
-                    inline=True
-                )
-                
-                embed.add_field(
-                    name="📊 إحصائيات سريعة",
-                    value=(
-                        f"**السيرفرات:** {len(self.guilds)}\n"
-                        f"**المستخدمين:** {self.stats['users_count']}\n"
-                        f"**الإصدار:** {self.version}"
-                    ),
-                    inline=True
+                    inline=False
                 )
                 
                 embed.set_image(url=self.world_dividers["general"])
-                embed.set_footer(text="نتمنى لك رحلة ممتعة في النيكسس!")
+                embed.set_footer(text="تم تطويره بـ ❤️ لخدمة مجتمعكم")
                 
                 await welcome_channel.send(embed=embed)
+                logger.info(f"✅ تم إرسال رسالة الترحيب في {guild.name}")
         
         except Exception as e:
-            logger.error(f"❌ خطأ في إرسال رسالة الترحيب لـ {guild.name}: {e}")
+            logger.error(f"❌ خطأ في إرسال رسالة الترحيب: {e}")
     
-    async def on_message(self, message: discord.Message):
-        """معالجة الرسائل"""
-        # تجاهل رسائل البوت نفسه
-        if message.author.bot:
-            return
-        
-        # معالجة الأوامر النصية (احتياطي)
-        await self.process_commands(message)
-    
-    async def on_command_error(self, ctx: commands.Context, error: commands.CommandError):
-        """معالجة أخطاء الأوامر النصية"""
-        if isinstance(error, commands.CommandNotFound):
-            return
-        
-        logger.error(f"❌ خطأ في أمر {ctx.command}: {error}")
-        
-        embed = discord.Embed(
-            title="❌ حدث خطأ",
-            description=f"```{error}```",
-            color=self.world_colors["error"]
-        )
-        await ctx.send(embed=embed, delete_after=10)
+    async def on_command_error(self, ctx, error):
+        """معالجة أخطاء الأوامر التقليدية"""
+        logger.error(f"خطأ أمر: {error}")
     
     async def on_app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         """معالجة أخطاء أوامر السلاش"""
-        logger.error(f"❌ خطأ في أمر سلاش: {error}")
+        try:
+            if isinstance(error, app_commands.CommandOnCooldown):
+                embed = discord.Embed(
+                    title="⏳ انتظر قليلاً",
+                    description=f"يمكنك استخدام هذا الأمر بعد {error.retry_after:.1f} ثانية",
+                    color=self.world_colors["warning"]
+                )
+            elif isinstance(error, app_commands.MissingPermissions):
+                embed = discord.Embed(
+                    title="🚫 لا تملك الصلاحية",
+                    description="ليس لديك صلاحية استخدام هذا الأمر",
+                    color=self.world_colors["error"]
+                )
+            else:
+                embed = discord.Embed(
+                    title="❌ حدث خطأ",
+                    description="حدث خطأ غير متوقع. حاول مرة أخرى لاحقاً",
+                    color=self.world_colors["error"]
+                )
+                logger.error(f"App command error: {error}", exc_info=True)
+            
+            if interaction.response.is_done():
+                await interaction.followup.send(embed=embed, ephemeral=True)
+            else:
+                await interaction.response.send_message(embed=embed, ephemeral=True)
         
-        embed = discord.Embed(
-            title="❌ حدث خطأ",
-            description=f"```{error}```",
-            color=self.world_colors["error"]
-        )
-        
-        if interaction.response.is_done():
-            await interaction.followup.send(embed=embed, ephemeral=True)
-        else:
-            await interaction.response.send_message(embed=embed, ephemeral=True)
+        except Exception as e:
+            logger.error(f"خطأ في معالجة الخطأ: {e}")
     
-    async def on_interaction(self, interaction: discord.Interaction):
-        """تسجيل التفاعلات (للإحصائيات)"""
-        if interaction.type == discord.InteractionType.component:
-            self.stats["buttons_clicked"] += 1
+    async def update_stats(self):
+        """تحديث إحصائيات البوت"""
+        try:
+            if not self.db:
+                return
+            
+            # إحصائيات المستخدمين
+            users_stats = await self.db.get_users_count()
+            self.stats["users_count"] = users_stats
+            
+            # إحصائيات إضافية من قاعدة البيانات
+            db_stats = await self.db.get_bot_stats()
+            if db_stats:
+                self.stats.update(db_stats)
+        
+        except Exception as e:
+            logger.error(f"خطأ تحديث الإحصائيات: {e}")
+    
+    async def auto_save_task(self):
+        """مهمة الحفظ التلقائي كل 5 دقائق"""
+        await self.wait_until_ready()
+        
+        while not self.is_closed():
+            try:
+                await asyncio.sleep(300)  # 5 دقائق
+                
+                # حفظ البيانات النشطة
+                if self.db:
+                    await self.db.commit()
+                
+                logger.debug("💾 تم الحفظ التلقائي")
+            
+            except Exception as e:
+                logger.error(f"خطأ في الحفظ التلقائي: {e}")
+    
+    async def auto_backup_task(self):
+        """مهمة النسخ الاحتياطي كل 24 ساعة"""
+        await self.wait_until_ready()
+        
+        backup_interval = config.get('backup.interval_hours', 24) * 3600
+        
+        while not self.is_closed():
+            try:
+                await asyncio.sleep(backup_interval)
+                
+                if self.db:
+                    backup_path = await self.db.create_backup()
+                    logger.info(f"📦 تم إنشاء نسخة احتياطية: {backup_path}")
+            
+            except Exception as e:
+                logger.error(f"خطأ في النسخ الاحتياطي: {e}")
     
     async def close(self):
         """إغلاق البوت بشكل آمن"""
         logger.info("🔄 جاري إغلاق البوت...")
         
-        # حفظ البيانات
-        if self.db:
-            await self.db.close()
-        
-        # إلغاء المهام
-        for task in asyncio.all_tasks():
-            if task is not asyncio.current_task():
-                task.cancel()
-        
-        await super().close()
-        logger.info("✅ تم إغلاق البوت")
-    
-    async def update_stats(self):
-        """تحديث إحصائيات البوت"""
-        total_users = 0
-        for guild in self.guilds:
-            total_users += guild.member_count
-        
-        self.stats["users_count"] = total_users
-        
-        if self.db:
-            # الحصول على إحصائيات من قاعدة البيانات
-            self.stats["worlds_completed"] = await self.db.get_total_completions()
-            self.stats["total_achievements"] = await self.db.get_total_achievements()
-    
-    async def auto_save_task(self):
-        """مهمة الحفظ التلقائي"""
-        await self.wait_until_ready()
-        interval = config.get('story.save_interval', 300)
-        
-        while not self.is_closed():
-            try:
-                await asyncio.sleep(interval)
-                
-                if self.db:
-                    await self.db.save_all()
-                    logger.debug("✅ تم الحفظ التلقائي")
+        try:
+            # حفظ نهائي للبيانات
+            if self.db:
+                await self.db.commit()
+                await self.db.close()
+                logger.info("✅ تم حفظ وإغلاق قاعدة البيانات")
             
-            except asyncio.CancelledError:
-                break
-            except Exception as e:
-                logger.error(f"❌ خطأ في الحفظ التلقائي: {e}")
-    
-    async def auto_backup_task(self):
-        """مهمة النسخ الاحتياطي التلقائي"""
-        await self.wait_until_ready()
-        interval = config.get('backup.interval', 86400)
+            await super().close()
+            logger.info("✅ تم إغلاق البوت بنجاح")
         
-        while not self.is_closed():
-            try:
-                await asyncio.sleep(interval)
-                
-                if self.db:
-                    backup_path = paths.get_backup_file()
-                    await self.db.create_backup(backup_path)
-                    logger.info(f"✅ تم إنشاء نسخة احتياطية: {backup_path}")
-            
-            except asyncio.CancelledError:
-                break
-            except Exception as e:
-                logger.error(f"❌ خطأ في النسخ الاحتياطي: {e}")
+        except Exception as e:
+            logger.error(f"❌ خطأ أثناء الإغلاق: {e}")
     
     # ============================================
-    # دوال مساعدة للعوالم
+    # دوال مساعدة للوصول السريع
     # ============================================
     
     def get_world_color(self, world_id: str) -> int:
