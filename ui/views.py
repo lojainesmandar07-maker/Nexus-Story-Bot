@@ -681,14 +681,26 @@ class WorldSelectView(View):
     
     def _create_callback(self, world_id: str):
         async def callback(interaction: discord.Interaction):
-            if interaction.user.id != self.user_id:
-                await interaction.response.send_message("❌ هذا ليس لك!", ephemeral=True)
-                return
-            
-            self.selected_world = world_id
-            self.stop()
-            
-            await interaction.response.edit_message(content=f"✅ تم اختيار {world_id}. استخدم /ابدأ {world_id}", view=None)
+            try:
+                if interaction.user.id != self.user_id:
+                    await interaction.response.send_message("❌ هذا ليس لك!", ephemeral=True)
+                    return
+
+                self.selected_world = world_id
+                self.stop()
+
+                message = f"✅ تم اختيار {world_id}. استخدم /ابدأ {world_id}"
+                if interaction.response.is_done():
+                    await interaction.followup.send(message, ephemeral=True)
+                else:
+                    await interaction.response.edit_message(content=message, view=None)
+            except Exception as e:
+                logger.error(f"❌ خطأ في WorldSelectView callback: {e}", exc_info=True)
+                err = "❌ حدث خطأ أثناء اختيار العالم، حاول مرة أخرى"
+                if interaction.response.is_done():
+                    await interaction.followup.send(err, ephemeral=True)
+                else:
+                    await interaction.response.send_message(err, ephemeral=True)
         
         return callback
     
