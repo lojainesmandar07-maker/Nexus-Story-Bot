@@ -86,8 +86,8 @@ class FantasyWorld:
     SPECIAL_VARS = ["fantasy_power"]
     
     # أجزاء القصة
-    TOTAL_PARTS = 24
-    START_PART = "FANTASY_01"
+    TOTAL_PARTS = 50
+    START_PART = "FANTASY_001"
     
     # النهايات
     ENDINGS = {
@@ -399,8 +399,8 @@ class FutureWorld:
     )
     
     SPECIAL_VARS = ["tech_level"]
-    TOTAL_PARTS = 20
-    START_PART = "FUTURE_01"
+    TOTAL_PARTS = 32
+    START_PART = "FUTURE_001"
     
     ENDINGS = {
         "future_light": WorldEnding(
@@ -551,8 +551,8 @@ class AlternateWorld:
     )
     
     SPECIAL_VARS = ["identity"]
-    TOTAL_PARTS = 20
-    START_PART = "ALT_01"
+    TOTAL_PARTS = 36
+    START_PART = "ALTER_001"
     
     ENDINGS = {
         "alternate_light": WorldEnding(
