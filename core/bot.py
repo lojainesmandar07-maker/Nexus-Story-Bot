@@ -14,7 +14,8 @@ from core.constants import (
     WORLD_COLORS, WORLD_DIVIDERS, WORLD_EMOJIS, WORLD_NAMES,
     WORLD_DESCRIPTIONS, WORLD_UNLOCK_RULES, SYSTEM_MESSAGES,
     get_world_color, get_world_divider, get_world_emoji,
-    get_world_name, get_world_description, create_progress_bar
+    get_world_name, get_world_description, create_progress_bar,
+    normalize_world_id,
 )
 from core.config import config, paths, env
 
@@ -186,7 +187,7 @@ class NexusBot(commands.Bot):
             if not player:
                 continue
 
-            resolved_world = player.get("current_world", "fantasy")
+            resolved_world = normalize_world_id(player.get("current_world", "fantasy"))
             if not self.story_loader.get_part(resolved_world, current_part):
                 # fallback: اكتشف العالم الصحيح عبر مطابقة part لكل عالم
                 for world_id in world_ids:
@@ -459,26 +460,32 @@ class NexusBot(commands.Bot):
     
     def get_world_color(self, world_id: str) -> int:
         """الحصول على لون عالم معين"""
+        world_id = normalize_world_id(world_id)
         return self.world_colors.get(world_id, self.world_colors["general"])
     
     def get_world_divider(self, world_id: str) -> str:
         """الحصول على فاصل عالم معين"""
+        world_id = normalize_world_id(world_id)
         return self.world_dividers.get(world_id, self.world_dividers["general"])
     
     def get_world_emoji(self, world_id: str) -> str:
         """الحصول على إيموجي عالم معين"""
+        world_id = normalize_world_id(world_id)
         return self.world_emojis.get(world_id, self.world_emojis["general"])
     
     def get_world_name(self, world_id: str) -> str:
         """الحصول على اسم عالم معين"""
+        world_id = normalize_world_id(world_id)
         return self.world_names.get(world_id, world_id)
     
     def get_world_description(self, world_id: str) -> str:
         """الحصول على وصف عالم معين"""
+        world_id = normalize_world_id(world_id)
         return self.world_descriptions.get(world_id, "")
     
     def can_access_world(self, player_data: Dict, world_id: str) -> tuple[bool, str]:
         """التحقق من إمكانية دخول عالم معين"""
+        world_id = normalize_world_id(world_id)
         rules = self.world_unlock_rules.get(world_id)
         
         if not rules:
