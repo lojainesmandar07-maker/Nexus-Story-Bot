@@ -178,7 +178,7 @@ class NexusBot(commands.Bot):
         logger.info(f"✅ تم تحميل {loaded}/{len(self.initial_extensions)} إضافة")
 
     async def sync_guild_commands(self):
-        """مزامنة أوامر السلاش لكل سيرفر لتظهر فوراً"""
+        """مزامنة أوامر السلاش لكل سيرفر لتظهر فوراً (Guild Sync)."""
         synced_count = 0
         for guild in self.guilds:
             try:
