@@ -511,18 +511,16 @@ class PersistentViewManager:
         مهم جداً! يضمن أن الأزرار تعمل حتى بعد إعادة التشغيل
         """
         try:
-            sessions = await self.bot.db.fetch_all("SELECT user_id, current_part FROM sessions")
+            active_states = await self.bot.get_active_story_states()
             restored = 0
 
-            for session in sessions:
-                user_id = session.get("user_id")
-                current_part = session.get("current_part")
-                player = await self.bot.db.get_player(user_id)
-
-                if not player or not current_part:
+            for state in active_states:
+                user_id = state.get("user_id")
+                world_id = state.get("world_id")
+                current_part = state.get("part_id")
+                if not user_id or not world_id or not current_part:
                     continue
 
-                world_id = player.get("current_world", "fantasy")
                 part_data = self.bot.story_loader.get_part(world_id, current_part)
                 if not part_data:
                     continue
@@ -532,7 +530,7 @@ class PersistentViewManager:
                 self.add_view(view, f"{user_id}:{world_id}:{current_part}")
                 restored += 1
 
-            logger.info(f"✅ تم تسجيل الأزرار الدائمة ({restored} جلسة مستعادة)")
+            logger.info(f"✅ تم تسجيل الأزرار الدائمة ({restored} حالة نشطة مستعادة)")
 
         except Exception as e:
             logger.error(f"❌ خطأ في تسجيل الأزرار: {e}")
@@ -800,6 +798,21 @@ class WorldSelectView(View):
         for item in self.children:
             item.disabled = True
 
+        message = getattr(self, "message", None)
+        if not message:
+            return
+
+        timeout_notice = "⏰ انتهت صلاحية الاختيار، استخدم /ابدأ مجددًا"
+
+        try:
+            if message.embeds:
+                embed = message.embeds[0].copy()
+                embed.add_field(name="انتهى الوقت", value=timeout_notice, inline=False)
+                await message.edit(embed=embed, view=self)
+            else:
+                await message.edit(content=timeout_notice, view=self)
+        except Exception as e:
+            logger.debug(f"تعذر تحديث رسالة اختيار العالم بعد انتهاء المهلة: {e}")
 
 # ============================================
 # تصدير الكلاسات
