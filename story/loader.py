@@ -502,6 +502,10 @@ class StoryLoader:
     
     def is_ending(self, world_id: str, part_id: str) -> bool:
         """التحقق مما إذا كان الجزء نهاية"""
+        # النمط الجديد: النهايات تُحفظ داخل حقل endings بمعرف مستقل
+        if self.get_ending(world_id, part_id):
+            return True
+            
         part = self.get_part(world_id, part_id)
         if not part:
             return False
@@ -512,6 +516,10 @@ class StoryLoader:
     
     def get_ending_type(self, world_id: str, part_id: str) -> str:
         """الحصول على نوع النهاية"""
+        ending = self.get_ending(world_id, part_id)
+        if ending:
+            return ending.get('type', 'normal')
+
         part = self.get_part(world_id, part_id)
         if not part:
             return "unknown"
