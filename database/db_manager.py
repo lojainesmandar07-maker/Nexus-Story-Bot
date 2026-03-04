@@ -239,6 +239,38 @@ class DatabaseManager:
             await db.execute("ALTER TABLE players ADD COLUMN daily_streak INTEGER DEFAULT 0")
             self.logger.info("✅ Migration: تمت إضافة العمود daily_streak")
 
+        # توحيد معرفات العوالم القديمة (past/alt) إلى القيم القياسية (retro/alternate)
+        await db.execute("UPDATE players SET current_world = 'retro' WHERE current_world = 'past'")
+        await db.execute("UPDATE players SET current_world = 'alternate' WHERE current_world = 'alt'")
+
+        # world_stats: تجنب تعارض المفتاح الأساسي عند وجود سجلين past + retro
+        await db.execute("DELETE FROM world_stats WHERE world_id = 'past' AND EXISTS (SELECT 1 FROM world_stats WHERE world_id = 'retro')")
+        await db.execute("DELETE FROM world_stats WHERE world_id = 'alt' AND EXISTS (SELECT 1 FROM world_stats WHERE world_id = 'alternate')")
+        await db.execute("UPDATE world_stats SET world_id = 'retro' WHERE world_id = 'past'")
+        await db.execute("UPDATE world_stats SET world_id = 'alternate' WHERE world_id = 'alt'")
+
+        # guild_world_channels: تجنب تعارض (guild_id, world_id)
+        await db.execute('''
+            DELETE FROM guild_world_channels
+            WHERE world_id = 'past'
+              AND EXISTS (
+                  SELECT 1 FROM guild_world_channels g2
+                  WHERE g2.guild_id = guild_world_channels.guild_id
+                    AND g2.world_id = 'retro'
+              )
+        ''')
+        await db.execute('''
+            DELETE FROM guild_world_channels
+            WHERE world_id = 'alt'
+              AND EXISTS (
+                  SELECT 1 FROM guild_world_channels g2
+                  WHERE g2.guild_id = guild_world_channels.guild_id
+                    AND g2.world_id = 'alternate'
+              )
+        ''')
+        await db.execute("UPDATE guild_world_channels SET world_id = 'retro' WHERE world_id = 'past'")
+        await db.execute("UPDATE guild_world_channels SET world_id = 'alternate' WHERE world_id = 'alt'")
+
     async def _seed_data(self, db: aiosqlite.Connection):
         """إضافة بيانات أولية إذا كانت قاعدة البيانات فارغة"""
         
@@ -610,6 +642,10 @@ class DatabaseManager:
         except Exception as e:
             self.logger.error(f"❌ خطأ في إنشاء جلسة: {e}")
 
+    async def save_session(self, user_id: int, current_part: str):
+        """توافق عكسي: حفظ/تحديث جلسة اللاعب الحالية"""
+        await self.create_session(user_id, current_part)
+        
     async def save_session(self, user_id: int, current_part: str):
         """توافق عكسي: حفظ/تحديث جلسة اللاعب الحالية"""
         await self.create_session(user_id, current_part)
