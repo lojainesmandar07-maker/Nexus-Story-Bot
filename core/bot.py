@@ -143,12 +143,9 @@ class NexusBot(commands.Bot):
         # تسجيل الأزرار الدائمة (مهم جداً!)
         await self.view_manager.register_all_views()
         
-        # إعداد نمط المزامنة:
-        # نستخدم مزامنة على مستوى السيرفر لتجنب ظهور الأوامر مكررة
-        # (تكرار يحصل عند الجمع بين Global + Guild بنفس الأسماء)
-        self.tree.clear_commands(guild=None)
-        await self.tree.sync()  # إزالة أي أوامر Global قديمة من Discord
-        logger.info("✅ تم تنظيف أوامر Global القديمة")
+        # مزامنة الأوامر Global (المسار الأكثر ثباتاً)
+        synced = await self.tree.sync()
+        logger.info(f"✅ تم مزامنة {len(synced)} أمر سلاش (Global)")
         
         # تحديث إحصائيات المستخدمين
         await self.update_stats()
@@ -181,19 +178,18 @@ class NexusBot(commands.Bot):
         logger.info(f"✅ تم تحميل {loaded}/{len(self.initial_extensions)} إضافة")
 
     async def sync_guild_commands(self):
-        """مزامنة أوامر السلاش لكل سيرفر لتظهر فوراً بدون تكرار."""
-        synced_count = 0
+        """تنظيف أي أوامر Guild قديمة/مكررة وترك Global فقط."""
+        cleaned_count = 0
         for guild in self.guilds:
             try:
-                # امسح أوامر السيرفر ثم انسخ الأوامر الحالية فقط
-                self.tree.clear_commands(guild=guild)
-                self.tree.copy_global_to(guild=guild)
+                # لا ننسخ Global إلى Guild حتى لا تظهر نسختان من نفس الأمر.
+                # هذه المزامنة تنظف أي أوامر Guild قديمة/مكررة فقط.
                 await self.tree.sync(guild=guild)
-                synced_count += 1
+                cleaned_count += 1
             except Exception as e:
-                logger.warning(f"⚠️ فشل مزامنة أوامر السيرفر {guild.id}: {e}")
-        if synced_count:
-            logger.info(f"✅ تمت مزامنة أوامر السلاش في {synced_count} سيرفر")
+                logger.warning(f"⚠️ فشل تنظيف أوامر السيرفر {guild.id}: {e}")
+        if cleaned_count:
+            logger.info(f"✅ تم تنظيف أوامر Guild في {cleaned_count} سيرفر")
 
     async def on_ready(self):
         """يتم استدعاؤها عندما يكون البو جاهزاً"""
