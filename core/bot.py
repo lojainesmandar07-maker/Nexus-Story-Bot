@@ -143,9 +143,12 @@ class NexusBot(commands.Bot):
         # تسجيل الأزرار الدائمة (مهم جداً!)
         await self.view_manager.register_all_views()
         
-        # مزامنة أوامر السلاش
-        synced = await self.tree.sync()
-        logger.info(f"✅ تم مزامنة {len(synced)} أمر سلاش")
+        # إعداد نمط المزامنة:
+        # نستخدم مزامنة على مستوى السيرفر لتجنب ظهور الأوامر مكررة
+        # (تكرار يحصل عند الجمع بين Global + Guild بنفس الأسماء)
+        self.tree.clear_commands(guild=None)
+        await self.tree.sync()  # إزالة أي أوامر Global قديمة من Discord
+        logger.info("✅ تم تنظيف أوامر Global القديمة")
         
         # تحديث إحصائيات المستخدمين
         await self.update_stats()
@@ -178,12 +181,12 @@ class NexusBot(commands.Bot):
         logger.info(f"✅ تم تحميل {loaded}/{len(self.initial_extensions)} إضافة")
 
     async def sync_guild_commands(self):
-        """مزامنة أوامر السلاش لكل سيرفر لتظهر فوراً (Guild Sync)."""
+        """مزامنة أوامر السلاش لكل سيرفر لتظهر فوراً بدون تكرار."""
         synced_count = 0
         for guild in self.guilds:
             try:
-                # انسخ الأوامر العالمية إلى السيرفر ثم مزامنة فورية
-                # هذا يقلل تأخر ظهور الأوامر العالمية مثل /ابدأ و /استمر
+                # امسح أوامر السيرفر ثم انسخ الأوامر الحالية فقط
+                self.tree.clear_commands(guild=guild)
                 self.tree.copy_global_to(guild=guild)
                 await self.tree.sync(guild=guild)
                 synced_count += 1
@@ -220,6 +223,7 @@ class NexusBot(commands.Bot):
         """عند دخول البوت إلى سيرفر جديد"""
         logger.info(f"✅ انضممت إلى سيرفر جديد: {guild.name} (ID: {guild.id})")
         try:
+            self.tree.clear_commands(guild=guild)
             self.tree.copy_global_to(guild=guild)
             await self.tree.sync(guild=guild)
             logger.info(f"✅ تمت مزامنة أوامر السلاش للسيرفر الجديد {guild.id}")
