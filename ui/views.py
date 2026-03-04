@@ -602,6 +602,60 @@ class ConfirmView(View):
             item.disabled = True
 
 
+class PaginatedView(View):
+    """عرض صفحات بسيط للتنقل بين عدة Embeds"""
+
+    def __init__(self, user_id: int, pages: List[discord.Embed], timeout: int = 120):
+        super().__init__(timeout=timeout)
+        self.user_id = user_id
+        self.pages = pages
+        self.current_page = 0
+
+        # إذا صفحة واحدة فقط، لا حاجة لأزرار التنقل
+        if len(self.pages) <= 1:
+            for item in self.children:
+                item.disabled = True
+        else:
+            self._update_buttons()
+
+    def _update_buttons(self):
+        if len(self.pages) <= 1:
+            self.prev_button.disabled = True
+            self.next_button.disabled = True
+            return
+
+        self.prev_button.disabled = self.current_page <= 0
+        self.next_button.disabled = self.current_page >= len(self.pages) - 1
+
+    @discord.ui.button(label="⬅️ السابق", style=discord.ButtonStyle.secondary, row=0)
+    async def prev_button(self, interaction: discord.Interaction, button: Button):
+        if interaction.user.id != self.user_id:
+            await interaction.response.send_message("❌ هذا ليس لك!", ephemeral=True)
+            return
+
+        if self.current_page > 0:
+            self.current_page -= 1
+
+        self._update_buttons()
+        await interaction.response.edit_message(embed=self.pages[self.current_page], view=self)
+
+    @discord.ui.button(label="التالي ➡️", style=discord.ButtonStyle.secondary, row=0)
+    async def next_button(self, interaction: discord.Interaction, button: Button):
+        if interaction.user.id != self.user_id:
+            await interaction.response.send_message("❌ هذا ليس لك!", ephemeral=True)
+            return
+
+        if self.current_page < len(self.pages) - 1:
+            self.current_page += 1
+
+        self._update_buttons()
+        await interaction.response.edit_message(embed=self.pages[self.current_page], view=self)
+
+    async def on_timeout(self):
+        for item in self.children:
+            item.disabled = True
+
+
 class WorldSelectView(View):
     """عرض اختيار العالم"""
     
@@ -651,5 +705,6 @@ __all__ = [
     'PersistentStoryView',
     'PersistentViewManager',
     'ConfirmView',
+    'PaginatedView',
     'WorldSelectView'
 ]
