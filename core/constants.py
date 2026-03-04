@@ -23,15 +23,15 @@ WORLD_COLORS = {
 # روابط الفواصل (الـ Dividers) - صورك الجديدة
 # ============================================
 WORLD_DIVIDERS = {
-    "fantasy": "https://media.discordapp.net/attachments/1475249056036032554/1477783191111864470/fantasy_copy.png?ex=69a60458&is=69a4b2d8&hm=1edb25b0145af29a3dcd648c53c3cd976b42559b83da95d7d397dd3c9db9f648&=&format=webp&quality=lossless&width=600&height=120",
+    "fantasy": "https://media.discordapp.net/attachments/1475249056036032554/1477783191111864470/fantasy_copy.png?ex=69a95018&is=69a7fe98&hm=e1caf5d5e1f507898755005c4cc61b7aa16dea9cac750a8a9df6894778568031&=&format=webp&quality=lossless&width=600&height=120",
     
-    "retro": "https://media.discordapp.net/attachments/1475249056036032554/1477783192307240990/past_copy.png?ex=69a60458&is=69a4b2d8&hm=77b26cde5fca36c5883021c69024aee428381fd32f7efabb9425755533da7711&=&format=webp&quality=lossless&width=600&height=120",
+    "retro": "https://media.discordapp.net/attachments/1475249056036032554/1477783192307240990/past_copy.png?ex=69a95018&is=69a7fe98&hm=20655e58d717e6b71a70f47c1710d89cee561809f4ddd88cb62fd0792f79e7e0&=&format=webp&quality=lossless&width=600&height=120",
     
-    "future": "https://media.discordapp.net/attachments/1475249056036032554/1477783191736553693/future_copy.png?ex=69a60458&is=69a4b2d8&hm=a65d179b9f006b63dde885383d63ebd6541982ff538bfd2bfd9ef7375e92af22&=&format=webp&quality=lossless&width=600&height=120",
+    "future": "https://media.discordapp.net/attachments/1475249056036032554/1477783191736553693/future_copy.png?ex=69a95018&is=69a7fe98&hm=a3aff553575eb81f9483ddeb60edffdfdef288bfedce5adf6ce2d99f34c2f475&=&format=webp&quality=lossless&width=600&height=120",
     
-    "alternate": "https://media.discordapp.net/attachments/1475249056036032554/1477783190474194946/aternatve_copy.png?ex=69a60458&is=69a4b2d8&hm=dc9a1080252efc0651106bc24e8a9550664322601e81beb29f689654130f2e39&=&format=webp&quality=lossless&width=600&height=120",
+    "alternate": "https://media.discordapp.net/attachments/1475249056036032554/1477783190474194946/aternatve_copy.png?ex=69a95018&is=69a7fe98&hm=f4c1f4b05dbce298c35c0091e1adcbb9bb63f4e9220ba829effe380727a77f8e&=&format=webp&quality=lossless&width=600&height=120",
     
-    "general": "https://media.discordapp.net/attachments/1472302270770053120/1472303048943468695/IMG_3554.gif?ex=699f4390&is=699df210&hm=f8f917593e7434a346a8f09afa943fedbafbda9fd7c979334a3b09fc53ac4a3a&=&width=675&height=36",
+    "general": "https://media.discordapp.net/attachments/1475249056036032554/1476980426718318662/Tumblr_l_791660695728056.gif?ex=69a90776&is=69a7b5f6&hm=ffb7aa9b0684f90e6d54c3b026709d27fe4799927b2a77c9391ac44ce0292e86&=&width=900&height=125",
     
     "combat": "https://media.discordapp.net/attachments/1475249056036032555/1475949842902683710/IMG_7045.png?ex=699f58e8&is=699e0768&hm=815d85803ff82737a7db1eb8cc4046c609038ee3d6bb6c520a83b323661196ee&=&format=webp&quality=lossless&width=600&height=90",
     
