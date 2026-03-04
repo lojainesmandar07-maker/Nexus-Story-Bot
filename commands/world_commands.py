@@ -32,7 +32,10 @@ class WorldCommands(commands.Cog):
     @rate_limit("عوالمي")
     async def worlds_command(self, interaction: discord.Interaction):
         """عرض كل العوالم وتقدم اللاعب فيها"""
-        
+
+        # منع خطأ: The application did not respond للأوامر التي قد تتأخر
+        await interaction.response.defer(ephemeral=True)
+
         user_id = interaction.user.id
         player = await self.bot.db.get_player(user_id)
         
@@ -108,7 +111,7 @@ class WorldCommands(commands.Cog):
         
         embed.set_footer(text=f"أكملت {worlds_completed}/4 عوالم • استخدم /تبديل_عالم للتنقل")
         
-        await interaction.response.send_message(embed=embed, ephemeral=True)
+        await interaction.followup.send(embed=embed, ephemeral=True)
     
     # ============================================
     # أمر /تبديل_عالم - تغيير العالم الحالي
