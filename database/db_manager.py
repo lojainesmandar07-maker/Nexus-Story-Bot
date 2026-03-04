@@ -609,6 +609,10 @@ class DatabaseManager:
             await self.execute(query, (user_id, current_part, now, now))
         except Exception as e:
             self.logger.error(f"❌ خطأ في إنشاء جلسة: {e}")
+
+    async def save_session(self, user_id: int, current_part: str):
+        """توافق عكسي: حفظ/تحديث جلسة اللاعب الحالية"""
+        await self.create_session(user_id, current_part)
     
     async def update_session(self, user_id: int):
         """تحديث آخر تفاعل في الجلسة"""
@@ -731,7 +735,11 @@ class DatabaseManager:
         """الحصول على عدد اللاعبين الكلي"""
         result = await self.fetch_one("SELECT COUNT(*) as count FROM players")
         return result['count'] if result else 0
-    
+
+    async def get_users_count(self) -> int:
+        """توافق عكسي: نفس get_total_players"""
+        return await self.get_total_players()
+        
     async def get_active_players(self, minutes: int = 60) -> int:
         """الحصول على عدد اللاعبين النشطين"""
         cutoff = (datetime.now() - timedelta(minutes=minutes)).isoformat()
@@ -758,7 +766,16 @@ class DatabaseManager:
         """الحصول على عدد الإنجازات المفتوحة"""
         result = await self.fetch_one("SELECT COUNT(*) as count FROM achievements")
         return result['count'] if result else 0
-    
+
+    async def get_bot_stats(self) -> Dict[str, int]:
+        """إحصائيات عامة للبوت لاستخدامها في شاشة الحالة"""
+        total_completions = await self.get_total_completions()
+        total_achievements = await self.get_total_achievements()
+        return {
+            "worlds_completed": total_completions,
+            "total_achievements": total_achievements,
+        }
+        
     # ============================================
     # دوال الصيانة
     # ============================================
@@ -773,7 +790,11 @@ class DatabaseManager:
         """إغلاق الاتصالات"""
         self.cache.clear()
         self.logger.info("✅ تم إغلاق قاعدة البيانات")
-    
+
+    async def commit(self):
+        """توافق عكسي: لا حاجة للـ commit لأن كل عملية تُحفظ فوراً"""
+        return None
+        
     async def save_all(self):
         """حفظ كل البيانات (للحفظ التلقائي)"""
         # التخزين المؤقت يتم تلقائياً مع كل عملية
