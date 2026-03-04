@@ -1,0 +1,1512 @@
+{
+  "metadata": {
+    "name": "العالم البديل",
+    "total_parts": 36,
+    "endings": 5,
+    "variables": [
+      "tech_level",
+      "corruption",
+      "mystery",
+      "reputation",
+      "trust_aren"
+    ]
+  },
+  "parts": {
+    "ALTER_001": {
+      "title": "مشهد 001: انكسار المرايا",
+      "location": "ممرات الغبار النجمي",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_002",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_003",
+          "effects": {
+            "tech_level": 3,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_004",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_002": {
+      "title": "مشهد 002: انكسار المرايا",
+      "location": "أرشيف الاحتمالات",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_003",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_004",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_005",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_003": {
+      "title": "مشهد 003: انكسار المرايا",
+      "location": "مسرح الظلال",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_004",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_005",
+          "effects": {
+            "tech_level": 2,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_006",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_004": {
+      "title": "مشهد 004: انكسار المرايا",
+      "location": "ميناء الذاكرة",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_005",
+          "effects": {
+            "reputation": 3,
+            "corruption": -1,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_006",
+          "effects": {
+            "tech_level": 3,
+            "corruption": 2,
+            "mystery": 2
+          },
+          "chance": 66,
+          "fail_next": "ALTER_005"
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_007",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_005": {
+      "title": "مشهد 005: انكسار المرايا",
+      "location": "المدينة المقلوبة",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_006",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_007",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_008",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        },
+        {
+          "text": "عقد صفقة مع حارس الفجوة",
+          "emoji": "🕶️",
+          "next": "ALTER_009",
+          "effects": {
+            "corruption": 3,
+            "mystery": 2,
+            "reputation": -1
+          },
+          "achievement_id": "alter_rare_voiddeal",
+          "achievement_name": "وسيط الفجوة"
+        }
+      ]
+    },
+    "ALTER_006": {
+      "title": "مشهد 006: انكسار المرايا",
+      "location": "ممرات الغبار النجمي",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_007",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_008",
+          "effects": {
+            "tech_level": 2,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_009",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_007": {
+      "title": "مشهد 007: انكسار المرايا",
+      "location": "أرشيف الاحتمالات",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_008",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_009",
+          "effects": {
+            "tech_level": 3,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_010",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_008": {
+      "title": "مشهد 008: انكسار المرايا",
+      "location": "مسرح الظلال",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_009",
+          "effects": {
+            "reputation": 3,
+            "corruption": -1,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_010",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 2,
+            "mystery": 2
+          },
+          "chance": 66,
+          "fail_next": "ALTER_009"
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_011",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_009": {
+      "title": "مشهد 009: انكسار المرايا",
+      "location": "ميناء الذاكرة",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_010",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_011",
+          "effects": {
+            "tech_level": 2,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_012",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_010": {
+      "title": "مشهد 010: انكسار المرايا",
+      "location": "المدينة المقلوبة",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_011",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_012",
+          "effects": {
+            "tech_level": 3,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_013",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        },
+        {
+          "text": "عقد صفقة مع حارس الفجوة",
+          "emoji": "🕶️",
+          "next": "ALTER_014",
+          "effects": {
+            "corruption": 3,
+            "mystery": 2,
+            "reputation": -1
+          },
+          "achievement_id": "alter_rare_voiddeal",
+          "achievement_name": "وسيط الفجوة"
+        }
+      ]
+    },
+    "ALTER_011": {
+      "title": "مشهد 011: انكسار المرايا",
+      "location": "ممرات الغبار النجمي",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_012",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_013",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_014",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_012": {
+      "title": "مشهد 012: انكسار المرايا",
+      "location": "أرشيف الاحتمالات",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_013",
+          "effects": {
+            "reputation": 3,
+            "corruption": -1,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_014",
+          "effects": {
+            "tech_level": 2,
+            "corruption": 2,
+            "mystery": 2
+          },
+          "chance": 66,
+          "fail_next": "ALTER_013"
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_015",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_013": {
+      "title": "مشهد 013: انكسار المرايا",
+      "location": "مسرح الظلال",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_014",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_015",
+          "effects": {
+            "tech_level": 3,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_016",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_014": {
+      "title": "مشهد 014: انكسار المرايا",
+      "location": "ميناء الذاكرة",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_015",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_016",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_017",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_015": {
+      "title": "مشهد 015: انكسار المرايا",
+      "location": "المدينة المقلوبة",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_016",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_017",
+          "effects": {
+            "tech_level": 2,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_018",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        },
+        {
+          "text": "عقد صفقة مع حارس الفجوة",
+          "emoji": "🕶️",
+          "next": "ALTER_019",
+          "effects": {
+            "corruption": 3,
+            "mystery": 2,
+            "reputation": -1
+          },
+          "achievement_id": "alter_rare_voiddeal",
+          "achievement_name": "وسيط الفجوة"
+        }
+      ]
+    },
+    "ALTER_016": {
+      "title": "مشهد 016: انكسار المرايا",
+      "location": "ممرات الغبار النجمي",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_017",
+          "effects": {
+            "reputation": 3,
+            "corruption": -1,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_018",
+          "effects": {
+            "tech_level": 3,
+            "corruption": 2,
+            "mystery": 2
+          },
+          "chance": 66,
+          "fail_next": "ALTER_017"
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_019",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_017": {
+      "title": "مشهد 017: انكسار المرايا",
+      "location": "أرشيف الاحتمالات",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_018",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_019",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_020",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_018": {
+      "title": "مشهد 018: انكسار المرايا",
+      "location": "مسرح الظلال",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_019",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_020",
+          "effects": {
+            "tech_level": 2,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_021",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_019": {
+      "title": "مشهد 019: انكسار المرايا",
+      "location": "ميناء الذاكرة",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_020",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_021",
+          "effects": {
+            "tech_level": 3,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_022",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_020": {
+      "title": "مشهد 020: انكسار المرايا",
+      "location": "المدينة المقلوبة",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_021",
+          "effects": {
+            "reputation": 3,
+            "corruption": -1,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_022",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 2,
+            "mystery": 2
+          },
+          "chance": 66,
+          "fail_next": "ALTER_021"
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_023",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        },
+        {
+          "text": "عقد صفقة مع حارس الفجوة",
+          "emoji": "🕶️",
+          "next": "ALTER_024",
+          "effects": {
+            "corruption": 3,
+            "mystery": 2,
+            "reputation": -1
+          },
+          "achievement_id": "alter_rare_voiddeal",
+          "achievement_name": "وسيط الفجوة"
+        }
+      ]
+    },
+    "ALTER_021": {
+      "title": "مشهد 021: انكسار المرايا",
+      "location": "ممرات الغبار النجمي",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك لأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_022",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_023",
+          "effects": {
+            "tech_level": 2,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_024",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_022": {
+      "title": "مشهد 022: انكسار المرايا",
+      "location": "أرشيف الاحتمالات",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_023",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_024",
+          "effects": {
+            "tech_level": 3,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_025",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_023": {
+      "title": "مشهد 023: انكسار المرايا",
+      "location": "مسرح الظلال",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_024",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_025",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_026",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_024": {
+      "title": "مشهد 024: انكسار المرايا",
+      "location": "ميناء الذاكرة",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_025",
+          "effects": {
+            "reputation": 3,
+            "corruption": -1,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_026",
+          "effects": {
+            "tech_level": 2,
+            "corruption": 2,
+            "mystery": 2
+          },
+          "chance": 66,
+          "fail_next": "ALTER_025"
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_027",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_025": {
+      "title": "مشهد 025: انكسار المرايا",
+      "location": "المدينة المقلوبة",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_026",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_027",
+          "effects": {
+            "tech_level": 3,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_028",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        },
+        {
+          "text": "عقد صفقة مع حارس الفجوة",
+          "emoji": "🕶️",
+          "next": "ALTER_029",
+          "effects": {
+            "corruption": 3,
+            "mystery": 2,
+            "reputation": -1
+          },
+          "achievement_id": "alter_rare_voiddeal",
+          "achievement_name": "وسيط الفجوة"
+        }
+      ]
+    },
+    "ALTER_026": {
+      "title": "مشهد 026: انكسار المرايا",
+      "location": "ممرات الغبار النجمي",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_027",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_028",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_029",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_027": {
+      "title": "مشهد 027: انكسار المرايا",
+      "location": "أرشيف الاحتمالات",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_028",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_029",
+          "effects": {
+            "tech_level": 2,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_030",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_028": {
+      "title": "مشهد 028: انكسار المرايا",
+      "location": "مسرح الظلال",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_029",
+          "effects": {
+            "reputation": 3,
+            "corruption": -1,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_030",
+          "effects": {
+            "tech_level": 3,
+            "corruption": 2,
+            "mystery": 2
+          },
+          "chance": 66,
+          "fail_next": "ALTER_029"
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_031",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_029": {
+      "title": "مشهد 029: انكسار المرايا",
+      "location": "ميناء الذاكرة",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_030",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_031",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_032",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_030": {
+      "title": "مشهد 030: انكسار المرايا",
+      "location": "المدينة المقلوبة",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_031",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_032",
+          "effects": {
+            "tech_level": 2,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_033",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        },
+        {
+          "text": "عقد صفقة مع حارس الفجوة",
+          "emoji": "🕶️",
+          "next": "ALTER_034",
+          "effects": {
+            "corruption": 3,
+            "mystery": 2,
+            "reputation": -1
+          },
+          "achievement_id": "alter_rare_voiddeal",
+          "achievement_name": "وسيط الفجوة"
+        }
+      ]
+    },
+    "ALTER_031": {
+      "title": "مشهد 031: انكسار المرايا",
+      "location": "ممرات الغبار النجمي",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_032",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_033",
+          "effects": {
+            "tech_level": 3,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_034",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_032": {
+      "title": "مشهد 032: انكسار المرايا",
+      "location": "أرشيف الاحتمالات",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_033",
+          "effects": {
+            "reputation": 3,
+            "corruption": -1,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_034",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 2,
+            "mystery": 2
+          },
+          "chance": 66,
+          "fail_next": "ALTER_033"
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_035",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_033": {
+      "title": "مشهد 033: انكسار المرايا",
+      "location": "مسرح الظلال",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_034",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "اتغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_035",
+          "effects": {
+            "tech_level": 2,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_036",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_034": {
+      "title": "مشهد 034: انكسار المرايا",
+      "location": "ميناء الذاكرة",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_035",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_036",
+          "effects": {
+            "tech_level": 3,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_END_FREEDOM",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "ALTER_035": {
+      "title": "مشهد 035: انكسار المرايا",
+      "location": "المدينة المقلوبة",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_036",
+          "effects": {
+            "reputation": 3,
+            "corruption": 0,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_END_CROWN",
+          "effects": {
+            "tech_level": 4,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_END_FREEDOM",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        },
+        {
+          "text": "عقد صفقة مع حارس الفجوة",
+          "emoji": "🕶️",
+          "next": "ALTER_END_SHADOW",
+          "effects": {
+            "corruption": 3,
+            "mystery": 2,
+            "reputation": -1
+          },
+          "achievement_id": "alter_rare_voiddeal",
+          "achievement_name": "وسيط الفجوة"
+        }
+      ]
+    },
+    "ALTER_036": {
+      "title": "مشهد 036: انكسار المرايا",
+      "location": "ممرات الغبار النجمي",
+      "text": "في هذا العالم البديل، كل قرار يفتح نسخة جديدة من الحقيقة. تسمع همسات نسخك الأخرى وهي تطلب النجاة بطريقتها؛ لكن اختيارك هنا سيحدد من يبقى، ومن يُمحى من السجل.",
+      "choices": [
+        {
+          "text": "حماية المدنيين أولاً",
+          "emoji": "🛡️",
+          "next": "ALTER_END_REWRITE",
+          "effects": {
+            "reputation": 3,
+            "corruption": -1,
+            "mystery": 1
+          }
+        },
+        {
+          "text": "استغلال الصدع الزمني",
+          "emoji": "🌀",
+          "next": "ALTER_END_CROWN",
+          "effects": {
+            "tech_level": 2,
+            "corruption": 2,
+            "mystery": 2
+          }
+        },
+        {
+          "text": "مطاردة مصدر الانقسام",
+          "emoji": "🧭",
+          "next": "ALTER_END_FREEDOM",
+          "effects": {
+            "mystery": 3,
+            "trust_aren": 1,
+            "reputation": 1
+          }
+        }
+      ]
+    }
+  },
+  "endings": {
+    "ALTER_END_REWRITE": {
+      "title": "إعادة كتابة المصير",
+      "text": "حين لمست نواة المرايا للمرة الأخيرة، لم تختر محو العالم ولا إخضاعه؛ اخترت إعادة كتابته بيدٍ ترتجف لكنها عادلة. انطفأت نسخك المتمردة واحدة تلو الأخرى، لا كعقاب بل كتحرير من تكرار الألم. المدن التي كانت تتقاتل على الحقيقة بدأت تتشارك ذاكرة واحدة، ناقصة لكنها صادقة. وقف الناس في الساحات يشاهدون السماء وهي تعود بلونها الطبيعي لأول مرة، ثم فهموا أن البطل الذي أنقذهم لم ينتصر بلا ثمن؛ فقد ترك جزءًا من نفسه داخل الأرشيف الأبدي ليبقى التوازن قائمًا. منذ ذلك اليوم، صار اسمك يُذكر كمن أعاد الزمن إلى إنسانيته بدل أن يحوّله إلى سجن.",
+      "type": "light",
+      "requirements": {},
+      "rewards": {
+        "xp": 720,
+        "items": [
+          "mirror-core"
+        ]
+      },
+      "next_world": null
+    },
+    "ALTER_END_CROWN": {
+      "title": "عرش الاحتمالات",
+      "text": "اخترت أن تحمل التاج الذي حذّر منه الجميع. في لحظة واحدة، انحنت كل النسخ والاحتمالات لإرادتك، وصار المستقبل يكتب نفسه بصوتك وحدك. توقفت الفوضى فعلًا، وتوقفت معها الحرية أيضًا؛ لا حرب في الشوارع، لكن لا أحلام حقيقية في العيون. حتى رفاقك الأوفى بدأوا يخاطبونك بحذر، كأنهم يتحدثون مع قدرٍ لا مع إنسان. لقد أنقذت العالم من الانهيار، لكنك بنَيت نظامًا لا يرحم الضعف ولا يسمح بالخطأ. وعندما تنظر إلى المرآة الملكية كل ليلة، ترى النصر كاملًا… وترى قلبك أبعد مما كان.",
+      "type": "dark",
+      "requirements": {},
+      "rewards": {
+        "xp": 640,
+        "items": [
+          "crown-shard"
+        ]
+      },
+      "next_world": null
+    },
+    "ALTER_END_FREEDOM": {
+      "title": "كسر الحلقة",
+      "text": "بدلًا من السيطرة أو الترميم، حطمت الآلة التي كانت تعيد إنتاج المصائر. اهتزت العوالم البديلة كزلزال كوني، وسقطت جدران كثيرة بداخلها أسرار لم يكن أحد مستعدًا لها. عمت الفوضى أيامًا طويلة، وارتفعت الخسائر، لكن شيئًا جديدًا وُلِد من تحت الركام: حق الاختيار الحقيقي. لم يعد أحد نسخةً من أحد، ولم يعد الألم مكررًا كقانون مقدس. رحلت بعض الوجوه التي أحببتها في طريق التحرير، لكن ذكراهم صارت راية لا قيدًا. في النهاية، وقفت فوق أنقاض المصفوفة وابتسمت رغم الدموع، لأن العالم أخيرًا صار حرًا… حتى لو كان ذلك مخيفًا.",
+      "type": "chaos",
+      "requirements": {},
+      "rewards": {
+        "xp": 680,
+        "items": [
+          "free-spark"
+        ]
+      },
+      "next_world": null
+    },
+    "ALTER_END_SHADOW": {
+      "title": "سلام الظلال",
+      "text": "لم يكن هذا السلام مجانيًا؛ كان عقدًا مكتوبًا بالحبر الأسود ودموع الناجين. ساومت حارس الفجوة ومنحت الظلال جزءًا من القرار مقابل بقاء المدن واقفة. اختفت الكوارث الكبرى، وعاد الخبز إلى الطاولات، لكن الليل لم يعد بريئًا كما كان. صار الناس ينجون في النهار ويتهامسون في الظلام عن أثمانٍ لا تُقال. أنت تعرف الحقيقة أكثر من الجميع: أن بعض الأبواب لا يجب أن تُفتح، لكنك فتحتها لأن البديل كان أسوأ. لذلك يراك العالم منقذًا… وتراك المرايا شريكًا للظلال.",
+      "type": "shadow",
+      "requirements": {},
+      "rewards": {
+        "xp": 610,
+        "items": [
+          "void-mark"
+        ]
+      },
+      "next_world": null
+    },
+    "ALTER_END_BALANCE": {
+      "title": "توازن هش",
+      "text": "لم تنتصر بالكامل، ولم تنهزم بالكامل. أغلقت الصدع الأكبر، لكن الشقوق الصغيرة بقيت تلمع تحت سطح الواقع كتذكير دائم بأن السلام قرار يومي لا نهاية له. تفاوضت المدن بدل أن تتقاتل، وتعلمت الفصائل أن الحقيقة ليست ملك أحد. بقيت بعض النسخ الضائعة تتجول على الأطراف، لا كتهديد مباشر بل كصدى لماضٍ لا يموت بسرعة. الناس لا يهتفون باسمك كل يوم، لكنهم ينامون بأمان أكثر مما كانوا يفعلون، وهذا انتصار بحد ذاته. ربما هذا ليس خاتمة أسطورية، لكنه بداية صادقة لعالم يمكن إصلاحه.",
+      "type": "gray",
+      "requirements": {},
+      "rewards": {
+        "xp": 600
+      },
+      "next_world": null
+    }
+  }
+}
