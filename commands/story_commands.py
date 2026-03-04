@@ -90,7 +90,21 @@ class StoryCommands(commands.Cog):
         else:
             # عرض العوالم المتاحة
             await self._show_world_selection(interaction, player)
-    
+
+        async def _send_interaction_message(
+        self,
+        interaction: discord.Interaction,
+        *,
+        content: Optional[str] = None,
+        embed: Optional[discord.Embed] = None,
+        view: Optional[discord.ui.View] = None,
+        ephemeral: bool = False
+    ):
+        """إرسال رسالة للتفاعل سواء كان response أو followup بحسب حالة التفاعل"""
+        if interaction.response.is_done():
+            return await interaction.followup.send(content=content, embed=embed, view=view, ephemeral=ephemeral)
+        return await interaction.response.send_message(content=content, embed=embed, view=view, ephemeral=ephemeral)
+        
     async def _show_world_selection(self, interaction: discord.Interaction, player: dict):
         """عرض أزرار اختيار العالم"""
         
@@ -134,7 +148,7 @@ class StoryCommands(commands.Cog):
                 inline=False
             )
         
-        await interaction.followup.send(embed=embed, view=view)
+        await self._send_interaction_message(interaction, embed=embed, view=view)
     
     async def _start_world(self, interaction: discord.Interaction, world_id: str, player: dict):
         """بدء عالم معين"""
@@ -148,7 +162,7 @@ class StoryCommands(commands.Cog):
                 description=message,
                 color=self.bot.world_colors["warning"]
             )
-            await interaction.followup.send(embed=embed, ephemeral=True)
+            await self._send_interaction_message(interaction, embed=embed, ephemeral=True)
             return
         
         # تحديث العالم الحالي
@@ -164,7 +178,7 @@ class StoryCommands(commands.Cog):
                 description=f"لم يتم العثور على بداية {WORLD_NAMES[world_id]}",
                 color=self.bot.world_colors["error"]
             )
-            await interaction.followup.send(embed=embed, ephemeral=True)
+            await self._send_interaction_message(interaction, embed=embed, ephemeral=True)
             return
         
         # تحديث تقدم اللاعب في العالم
@@ -173,7 +187,7 @@ class StoryCommands(commands.Cog):
         
         # إنشاء رسالة تعريف بالعالم
         intro_embed = self.embeds.world_intro_embed(world_id, player.get("level", 1))
-        await interaction.followup.send(embed=intro_embed, ephemeral=True)
+        await self._send_interaction_message(interaction, embed=intro_embed, ephemeral=True)
         
         # الحصول على بيانات اللاعب المحدثة
         updated_player = await self.bot.db.get_player(interaction.user.id)
@@ -193,10 +207,10 @@ class StoryCommands(commands.Cog):
                 embed=story_embed,
                 view=view
             )
-            await interaction.followup.send(f"✅ تم إرسال القصة في {channel.mention}", ephemeral=True)
+            await self._send_interaction_message(interaction, content=f"✅ تم إرسال القصة في {channel.mention}", ephemeral=True)
         else:
             # إذا لم توجد القناة المناسبة، أرسل في نفس القناة
-            await interaction.followup.send(embed=story_embed, view=view)
+            await self._send_interaction_message(interaction, embed=story_embed, view=view)
     
     # ============================================
     # أمر /استمر - متابعة الرحلة
