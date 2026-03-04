@@ -177,7 +177,8 @@ class StoryLoader:
                 return False
         
         return True
-            def _validate_part(self, part: Dict, part_id: str, world_id: str) -> bool:
+    
+    def _validate_part(self, part: Dict, part_id: str, world_id: str) -> bool:
         """التحقق من صحة جزء معين"""
         required_fields = ['title', 'text', 'choices']
         
@@ -435,8 +436,9 @@ class StoryLoader:
         
         self.logger.warning(f"⚠️ جزء غير موجود: {world_id} - {part_id}")
         return None
-            def get_start_part(self, world_id: str) -> str:
-        """الحصول على جزء البداية لعالم معين"""
+    
+    def get_start_part(self, world_id: str) -> str:
+        """الحصول على جزء البداية عالم معين"""
         world_info = self.WORLDS.get(world_id, {})
         return world_info.get("start_part", f"{world_id.upper()}_01")
     
