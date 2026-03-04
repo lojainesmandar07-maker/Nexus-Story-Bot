@@ -5,9 +5,11 @@ import discord
 from discord.ui import View, Button
 import logging
 import asyncio
+import sqlite3
 from typing import Dict, List, Any, Optional, Callable
 from datetime import datetime
 import random
+import aiosqlite
 
 from core.constants import BUTTON_STYLES, WORLD_EMOJIS, get_button_style
 from utils.logger import logger_manager
@@ -15,6 +17,40 @@ from utils.helpers import parse_effects, summarize_effects, clamp
 from utils.rate_limiter import ButtonRateLimit
 
 logger = logging.getLogger(__name__)
+
+
+def _classify_error(exc: Exception, source: str = "general") -> str:
+    if isinstance(exc, (aiosqlite.Error, sqlite3.Error)):
+        return "db_error"
+    if isinstance(exc, discord.Forbidden):
+        return "permissions_error"
+    if source == "story_loader":
+        return "story_loader_error"
+    return "unexpected_error"
+
+
+def _log_exception_with_context(
+    *,
+    error: Exception,
+    event: str,
+    source: str,
+    interaction: Optional[discord.Interaction] = None,
+    current_world: Optional[str] = None,
+    current_part: Optional[str] = None,
+    user_id: Optional[int] = None,
+):
+    logger.exception(
+        "%s error_type=%s source=%s user_id=%s guild_id=%s channel_id=%s current_world=%s current_part=%s",
+        event,
+        _classify_error(error, source),
+        source,
+        user_id if user_id is not None else getattr(getattr(interaction, "user", None), "id", None),
+        getattr(getattr(interaction, "guild", None), "id", None),
+        getattr(getattr(interaction, "channel", None), "id", None),
+        current_world,
+        current_part,
+        exc_info=error,
+    )
 
 
 class PersistentStoryView(View):
@@ -255,10 +291,18 @@ class PersistentStoryView(View):
                     await self._handle_ending(interaction, next_part_id, updated_player)
                 
             except Exception as e:
-                logger.error(f"❌ خطأ في معالجة الزر: {e}", exc_info=True)
+                _log_exception_with_context(
+                    error=e,
+                    event="persistent_story_choice_failed",
+                    source="story_loader",
+                    interaction=interaction,
+                    current_world=self.world_id,
+                    current_part=self.part_id,
+                    user_id=self.user_id,
+                )
                 embed = discord.Embed(
                     title="❌ حدث خطأ",
-                    description=f"```{str(e)[:100]}```",
+                    description="حدث خطأ أثناء تنفيذ خيارك. حاول مرة أخرى.",
                     color=self.bot.world_colors["error"]
                 )
                 await interaction.followup.send(embed=embed, ephemeral=True)
@@ -317,7 +361,15 @@ class PersistentStoryView(View):
         # مكافأة تقدم الجزء
         try:
             part_num = int(str(next_part_id).split('_')[-1])
-        except Exception:
+        except Exception as e:
+            _log_exception_with_context(
+                error=e,
+                event="calculate_xp_gain_parse_failed",
+                source="story_loader",
+                current_world=self.world_id,
+                current_part=self.part_id,
+                user_id=self.user_id,
+            )
             part_num = 1
         progress_bonus = min(8, part_num // 4)
 
@@ -480,7 +532,15 @@ class PersistentStoryView(View):
     
     async def on_error(self, interaction: discord.Interaction, error: Exception, item: discord.ui.Item):
         """معالجة الأخطاء"""
-        logger.error(f"❌ خطأ في الزر: {error}", exc_info=True)
+        _log_exception_with_context(
+            error=error,
+            event="persistent_story_view_on_error",
+            source="general",
+            interaction=interaction,
+            current_world=self.world_id,
+            current_part=self.part_id,
+            user_id=self.user_id,
+        )
         
         embed = discord.Embed(
             title="❌ حدث خطأ",
@@ -490,7 +550,16 @@ class PersistentStoryView(View):
         
         try:
             await interaction.response.send_message(embed=embed, ephemeral=True)
-        except:
+        except Exception as e:
+            _log_exception_with_context(
+                error=e,
+                event="persistent_story_view_response_fallback",
+                source="permissions",
+                interaction=interaction,
+                current_world=self.world_id,
+                current_part=self.part_id,
+                user_id=self.user_id,
+            )
             await interaction.followup.send(embed=embed, ephemeral=True)
 
 
@@ -533,7 +602,11 @@ class PersistentViewManager:
             logger.info(f"✅ تم تسجيل الأزرار الدائمة ({restored} حالة نشطة مستعادة)")
 
         except Exception as e:
-            logger.error(f"❌ خطأ في تسجيل الأزرار: {e}")
+            _log_exception_with_context(
+                error=e,
+                event="register_all_views_failed",
+                source="story_loader",
+            )
     
     def add_view(self, view: PersistentStoryView, view_id: str):
         """إضافة عرض جديد"""
@@ -766,6 +839,15 @@ class WorldSelectView(View):
                     try:
                         await channel.send(embed=story_embed, view=story_view)
                     except Exception as send_error:
+                        _log_exception_with_context(
+                            error=send_error,
+                            event="world_select_channel_send_failed",
+                            source="permissions",
+                            interaction=interaction,
+                            current_world=world_id,
+                            current_part=start_part_id,
+                            user_id=user_id,
+                        )
                         channel_failure_reason = f"send_failed:{type(send_error).__name__}:{send_error}"
 
                 if channel_failure_reason:
@@ -781,11 +863,27 @@ class WorldSelectView(View):
                 # تعطيل رسالة اختيار العالم القديمة
                 try:
                     await interaction.message.edit(view=None)
-                except Exception:
-                    pass
+                except Exception as e:
+                    _log_exception_with_context(
+                        error=e,
+                        event="world_select_disable_old_view_failed",
+                        source="permissions",
+                        interaction=interaction,
+                        current_world=world_id,
+                        current_part=locals().get("start_part_id"),
+                        user_id=self.user_id,
+                    )
 
             except Exception as e:
-                logger.error(f"❌ خطأ في WorldSelectView callback: {e}", exc_info=True)
+                _log_exception_with_context(
+                    error=e,
+                    event="world_select_callback_failed",
+                    source="story_loader",
+                    interaction=interaction,
+                    current_world=world_id,
+                    current_part=locals().get("start_part_id"),
+                    user_id=self.user_id,
+                )
                 err = "❌ حدث خطأ أثناء اختيار العالم، حاول مرة أخرى"
                 if interaction.response.is_done():
                     await interaction.followup.send(err, ephemeral=True)
@@ -812,7 +910,14 @@ class WorldSelectView(View):
             else:
                 await message.edit(content=timeout_notice, view=self)
         except Exception as e:
-            logger.debug(f"تعذر تحديث رسالة اختيار العالم بعد انتهاء المهلة: {e}")
+            _log_exception_with_context(
+                error=e,
+                event="world_select_timeout_update_failed",
+                source="permissions",
+                current_world=None,
+                current_part=None,
+                user_id=self.user_id,
+            )
 
 # ============================================
 # تصدير الكلاسات
