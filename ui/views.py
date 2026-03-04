@@ -199,10 +199,12 @@ class PersistentStoryView(View):
                     await interaction.followup.send(embed=embed, ephemeral=True)
                     return
                 
-                # الحصول على الجزء التالي
-                next_part = self.bot.story_loader.get_part(self.world_id, next_part_id)
-                
-                if not next_part:
+                # هل الهدف نهاية مسجلة في endings؟
+                ending_data = self.bot.story_loader.get_ending(self.world_id, next_part_id)
+
+                # أو جزء قصة عادي
+                next_part = None if ending_data else self.bot.story_loader.get_part(self.world_id, next_part_id)
+                if not next_part and not ending_data:
                     embed = discord.Embed(
                         title="❌ خطأ في القصة",
                         description="عذراً، حدث خطأ في تحميل الجزء التالي. تم إبلاغ المطورين.",
@@ -253,7 +255,15 @@ class PersistentStoryView(View):
                 
                 # إنشاء الرسالة الجديدة
                 updated_player = await self.bot.db.get_player(self.user_id)
-                embed = self.bot.create_game_embed(self.world_id, next_part, updated_player)
+                if ending_data:
+                    embed = discord.Embed(
+                        title=f"🎬 {ending_data.get('title', 'نهاية القصة')}",
+                        description=ending_data.get('text', 'لقد وصلت إلى النهاية!'),
+                        color=self.bot.get_world_color(self.world_id)
+                    )
+                    embed.set_image(url=self.bot.get_world_divider(self.world_id))
+                else:
+                    embed = self.bot.create_game_embed(self.world_id, next_part, updated_player)
                 
                 # إضافة ملخص التأثيرات
                 if impact_log:
@@ -281,14 +291,15 @@ class PersistentStoryView(View):
                     await interaction.followup.send(embed=ach_embed, ephemeral=True)
                 
                 # تحديث الرسالة
+                if ending_data:
+                    await interaction.message.edit(embed=embed, view=None)
+                    await self._handle_ending(interaction, next_part_id, updated_player)
+                    return
+
                 await interaction.message.edit(
                     embed=embed,
                     view=PersistentStoryView(self.bot, self.user_id, self.world_id, next_part)
                 )
-                
-                # التحقق من النهاية
-                if self.bot.story_loader.is_ending(self.world_id, next_part_id):
-                    await self._handle_ending(interaction, next_part_id, updated_player)
                 
             except Exception as e:
                 _log_exception_with_context(
