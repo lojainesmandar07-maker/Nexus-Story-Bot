@@ -46,50 +46,61 @@ class StoryCommands(commands.Cog):
         العالم: Optional[str] = None
     ):
         """بدء رحلة جديدة في عالم معين"""
-        
-        # التحقق من القناة المناسبة
-        if not await self._check_channel(interaction):
-            return
-        
-        user_id = interaction.user.id
-        username = interaction.user.name
-        
-        # الحصول على بيانات اللاعب
-        player = await self.bot.db.get_player(user_id)
-        
-        # إذا كان اللاعب جديداً
-        if not player:
-            await self.bot.db.create_player(user_id, username)
+
+        # منع خطأ: The application did not respond
+        await interaction.response.defer(ephemeral=True)
+
+        try:
+            # التحقق من القناة المناسبة
+            if not await self._check_channel(interaction):
+                return
+
+            user_id = interaction.user.id
+            username = interaction.user.name
+
+            # الحصول على بيانات اللاعب
             player = await self.bot.db.get_player(user_id)
-            
-            embed = discord.Embed(
-                title="✨ مرحباً بك في النيكسس!",
-                description=(
-                    "أهلاً بك أيها المغامر الجديد!\n\n"
-                    "**📖 ما هو النيكسس؟**\n"
-                    "هو عالم من 4 عوالم مترابطة، كل عالم له قصته وشخصياته ونهاياته.\n\n"
-                    "**🎮 كيف تلعب؟**\n"
-                    "• ستظهر لك أزرار تمثل الخيارات المتاحة\n"
-                    "• كل قرار يغير مسار القصة ويؤثر على شخصيتك\n"
-                    "• راقب الفساد - لا تدعه يسيطر عليك\n"
-                    "• اجمع الشظايا والإنجازات لتصبح أقوى\n\n"
-                    "**🌍 ابدأ الآن باختيار عالمك الأول!**"
-                ),
-                color=self.bot.world_colors["general"]
+
+            # إذا كان اللاعب جديداً
+            if not player:
+                await self.bot.db.create_player(user_id, username)
+                player = await self.bot.db.get_player(user_id)
+
+                embed = discord.Embed(
+                    title="✨ مرحباً بك في النيكسس!",
+                    description=(
+                        "أهلاً بك أيها المغامر الجديد!\n\n"
+                        "**📖 ما هو النيكسس؟**\n"
+                        "هو عالم من 4 عوالم مترابطة، كل عالم له قصته وشخصياته ونهاياته.\n\n"
+                        "**🎮 كيف تلعب؟**\n"
+                        "• ستظهر لك أزرار تمثل الخيارات المتاحة\n"
+                        "• كل قرار يغير مسار القصة ويؤثر على شخصيتك\n"
+                        "• راقب الفساد - لا تدعه يسيطر عليك\n"
+                        "• اجمع الشظايا والإنجازات لتصبح أقوى\n\n"
+                        "**🌍 ابدأ الآن باختيار عالمك الأول!**"
+                    ),
+                    color=self.bot.world_colors["general"]
+                )
+                embed.set_image(url=self.bot.world_dividers["general"])
+                await interaction.followup.send(embed=embed, ephemeral=True)
+
+                # عرض اختيار العوالم
+                await self._show_world_selection(interaction, player)
+                return
+
+            # إذا كان لديه تقدم سابق وعين عالماً محدداً
+            if العالم:
+                await self._start_world(interaction, العالم, player)
+            else:
+                # عرض العوالم المتاحة
+                await self._show_world_selection(interaction, player)
+
+        except Exception as e:
+            logger.error(f"Error in start_command: {e}", exc_info=True)
+            await interaction.followup.send(
+                "❌ حدث خطأ تقني أثناء بدء الرحلة، يرجى المحاولة لاحقاً.",
+                ephemeral=True
             )
-            embed.set_image(url=self.bot.world_dividers["general"])
-            await interaction.response.send_message(embed=embed, ephemeral=True)
-            
-            # عرض اختيار العوالم
-            await self._show_world_selection(interaction, player)
-            return
-        
-        # إذا كان لديه تقدم سابق وعين عالماً محدداً
-        if العالم:
-            await self._start_world(interaction, العالم, player)
-        else:
-            # عرض العوالم المتاحة
-            await self._show_world_selection(interaction, player)
 
     async def _send_interaction_message(
         self,
@@ -104,7 +115,7 @@ class StoryCommands(commands.Cog):
         if interaction.response.is_done():
             return await interaction.followup.send(content=content, embed=embed, view=view, ephemeral=ephemeral)
         return await interaction.response.send_message(content=content, embed=embed, view=view, ephemeral=ephemeral)
-        
+
     async def _show_world_selection(self, interaction: discord.Interaction, player: dict):
         """عرض أزرار اختيار العالم"""
         
@@ -215,70 +226,76 @@ class StoryCommands(commands.Cog):
     # ============================================
     # أمر /استمر - متابعة الرحلة
     # ============================================
-    
-    @app_commands.command(name="استمر", description="⏩ استمر في رحلتك من آخر نقطة")
+        @app_commands.command(name="استمر", description="⏩ استمر في رحلتك من آخر نقطة")
     @rate_limit("استمر")
     async def continue_command(self, interaction: discord.Interaction):
         """متابعة الرحلة من آخر نقطة"""
-        
-        # التحقق من القناة المناسبة
-        if not await self._check_channel(interaction):
-            return
-        
-        user_id = interaction.user.id
-        player = await self.bot.db.get_player(user_id)
-        
-        if not player:
-            embed = discord.Embed(
-                title="❌ لا يوجد تقدم",
-                description="لم تبدأ رحلتك بعد! استخدم `/ابدأ` أولاً",
-                color=self.bot.world_colors["error"]
+
+        # منع خطأ: The application did not respond
+        await interaction.response.defer(ephemeral=True)
+
+        try:
+            # التحقق من القناة المناسبة
+            if not await self._check_channel(interaction):
+                return
+
+            user_id = interaction.user.id
+            player = await self.bot.db.get_player(user_id)
+
+            if not player or not player.get("current_world"):
+                await interaction.followup.send(
+                    "❌ لا يوجد تقدم سابق. استخدم `/ابدأ` أولاً.",
+                    ephemeral=True
+                )
+                return
+
+            current_world = player.get("current_world", "fantasy")
+            current_part = player.get(f"{current_world}_part")
+
+            if not current_part or current_part == "لم يبدأ":
+                await interaction.followup.send(
+                    f"❌ لم تبدأ {WORLD_NAMES.get(current_world, current_world)} بعد!",
+                    ephemeral=True
+                )
+                return
+
+            part_data = self.bot.story_loader.get_part(current_world, current_part)
+            if not part_data:
+                await interaction.followup.send(
+                    "❌ عذراً، تعذر تحميل بيانات القصة الحالية.",
+                    ephemeral=True
+                )
+                return
+
+            # إنشاء رسالة القصة
+            story_embed = self.bot.create_game_embed(current_world, part_data, player)
+
+            # إنشاء الأزرار الدائمة
+            view = PersistentStoryView(self.bot, user_id, current_world, part_data)
+            await self.bot.db.save_session(user_id, current_part)
+
+            # تحديد القناة المناسبة
+            channel = await self._get_world_channel(interaction, current_world)
+
+            if channel:
+                await channel.send(
+                    content=f"**{interaction.user.mention} يستمر في {WORLD_NAMES[current_world]}**",
+                    embed=story_embed,
+                    view=view
+                )
+                await interaction.followup.send(
+                    f"✅ تم متابعة القصة في {channel.mention}",
+                    ephemeral=True
+                )
+            else:
+                await interaction.followup.send(embed=story_embed, view=view, ephemeral=True)
+
+        except Exception as e:
+            logger.error(f"Error in continue_command: {e}", exc_info=True)
+            await interaction.followup.send(
+                "❌ حدث خطأ أثناء محاولة استكمال القصة.",
+                ephemeral=True
             )
-            await interaction.response.send_message(embed=embed, ephemeral=True)
-            return
-        
-        current_world = player.get("current_world", "fantasy")
-        current_part = player.get(f"{current_world}_part")
-        
-        if not current_part or current_part == "لم يبدأ":
-            embed = discord.Embed(
-                title="❌ لا يوجد تقدم",
-                description=f"لم تبدأ {WORLD_NAMES[current_world]} بعد!",
-                color=self.bot.world_colors["error"]
-            )
-            await interaction.response.send_message(embed=embed, ephemeral=True)
-            return
-        
-        part_data = self.bot.story_loader.get_part(current_world, current_part)
-        
-        if not part_data:
-            embed = discord.Embed(
-                title="❌ خطأ",
-                description=f"لم يتم العثور على الجزء {current_part}",
-                color=self.bot.world_colors["error"]
-            )
-            await interaction.response.send_message(embed=embed, ephemeral=True)
-            return
-        
-        # إنشاء رسالة القصة
-        story_embed = self.bot.create_game_embed(current_world, part_data, player)
-        
-        # إنشاء الأزرار الدائمة
-        view = PersistentStoryView(self.bot, user_id, current_world, part_data)
-        await self.bot.db.save_session(user_id, current_part)
-        
-        # تحديد القناة المناسبة
-        channel = await self._get_world_channel(interaction, current_world)
-        
-        if channel:
-            await channel.send(
-                content=f"**{interaction.user.mention} يستمر في {WORLD_NAMES[current_world]}**",
-                embed=story_embed,
-                view=view
-            )
-            await interaction.response.send_message(f"✅ تم متابعة القصة في {channel.mention}", ephemeral=True)
-        else:
-            await interaction.response.send_message(embed=story_embed, view=view)
     
     # ============================================
     # أمر /قراراتي - عرض آخر القرارات
@@ -421,7 +438,7 @@ class StoryCommands(commands.Cog):
                 value=f"مكتمل! النهاية: {player[f'{current_world}_ending']}",
                 inline=False
             )
-        
+                    
         # متغيرات خاصة بالعالم
         if current_world == "fantasy":
             embed.add_field(
@@ -532,7 +549,9 @@ class StoryCommands(commands.Cog):
         if configured_channel_id:
             configured_channel = guild.get_channel(configured_channel_id)
             if isinstance(configured_channel, discord.TextChannel):
-                return configured_channel
+                perms = configured_channel.permissions_for(guild.me)
+                if perms.send_messages and perms.embed_links:
+                    return configured_channel
 
         # 2) fallback على الأسماء الافتراضية من الثوابت
         from core.constants import SERVER_CHANNELS
@@ -540,7 +559,9 @@ class StoryCommands(commands.Cog):
         if channel_name:
             for channel in guild.channels:
                 if channel.name == channel_name and isinstance(channel, discord.TextChannel):
-                    return channel
+                    perms = channel.permissions_for(guild.me)
+                    if perms.send_messages and perms.embed_links:
+                        return channel
 
         # 3) لا ننشئ قناة تلقائياً: نعيد None ليتم الإرسال في نفس القناة
         return None
