@@ -177,7 +177,7 @@ class NexusBot(commands.Bot):
             logger.warning(f"⚠️ {len(failed)} إضافة فشلت: {', '.join(failed)}")
         logger.info(f"✅ تم تحميل {loaded}/{len(self.initial_extensions)} إضافة")
 
-     async def sync_guild_commands(self):
+    async def sync_guild_commands(self):
         """مزامنة أوامر السلاش لكل سيرفر لتظهر فوراً"""
         synced_count = 0
         for guild in self.guilds:
