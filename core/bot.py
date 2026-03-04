@@ -170,7 +170,9 @@ class NexusBot(commands.Bot):
         if not self.db:
             return states
 
-        world_ids = list(self.world_names.keys())
+        # استخدم معرفات العوالم الأساسية فقط من محمل القصة
+        # لتجنب المرادفات (مثل past/alt) التي لا تملك أعمدة في قاعدة البيانات.
+        world_ids = list(self.story_loader.WORLDS.keys()) if self.story_loader else ["fantasy", "retro", "future", "alternate"]
 
         # المصدر الأول: sessions (آخر جزء متفاعل عليه غالباً)
         sessions = await self.db.fetch_all("SELECT user_id, current_part FROM sessions")
