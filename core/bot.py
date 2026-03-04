@@ -27,6 +27,7 @@ from story.loader import StoryLoader
 
 # استيراد مدير الأزرار الدائمة
 from ui.views import PersistentViewManager
+from ui.embeds import NexusEmbeds
 
 # استيراد أدوات مساعدة
 from utils.logger import setup_logger
@@ -81,6 +82,9 @@ class NexusBot(commands.Bot):
         
         # مدير الأزرار الدائمة
         self.view_manager: Optional[PersistentViewManager] = None
+
+        # مصنع الـ Embeds الموحد
+        self.embed_factory = NexusEmbeds(self)
         
         # محدد السرعة
         self.rate_limiter = RateLimiter()
@@ -248,7 +252,8 @@ class NexusBot(commands.Bot):
         synced_count = 0
         for guild in self.guilds:
             try:
-                self.tree.copy_global_to(guild=guild)
+                # تنظيف الأوامر المحلية القديمة/المكررة أولاً
+                self.tree.clear_commands(guild=guild)
                 await self.tree.sync(guild=guild)
                 synced_count += 1
             except Exception as e:
@@ -579,6 +584,11 @@ class NexusBot(commands.Bot):
     def create_progress_bar(self, current: int, maximum: int, length: int = 10) -> str:
         """إنشاء شريط تقدم"""
         return create_progress_bar(current, maximum, length)
+
+    def create_game_embed(self, world_id: str, part_data: Dict, player_data: Dict) -> discord.Embed:
+        """منشئ موحد لرسالة القصة الأساسية (مستخدم في الأوامر والأزرار)."""
+        world_id = normalize_world_id(world_id)
+        return self.embed_factory.story_embed(world_id, part_data, player_data)
     
     def get_system_message(self, category: str, key: str, **kwargs) -> str:
         """الحصول على رسالة نظام"""
