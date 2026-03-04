@@ -11,7 +11,7 @@ from datetime import datetime
 import random
 import aiosqlite
 
-from core.constants import BUTTON_STYLES, WORLD_EMOJIS, get_button_style
+from core.constants import BUTTON_STYLES, WORLD_EMOJIS, get_button_style, normalize_world_id
 from utils.logger import logger_manager
 from utils.helpers import parse_effects, summarize_effects, clamp
 from utils.rate_limiter import ButtonRateLimit
@@ -65,7 +65,7 @@ class PersistentStoryView(View):
         
         self.bot = bot
         self.user_id = user_id
-        self.world_id = world_id
+        self.world_id = normalize_world_id(world_id)
         self.part_data = part_data
         self.part_id = part_data.get('id', 'unknown')
         
@@ -759,12 +759,13 @@ class WorldSelectView(View):
     def _create_callback(self, world_id: str):
         async def callback(interaction: discord.Interaction):
             try:
+                world_id_normalized = normalize_world_id(world_id)
                 if interaction.user.id != self.user_id:
                     await interaction.response.send_message("❌ هذا ليس لك!", ephemeral=True)
                     return
 
                 # نغلق أزرار الاختيار ثم نبدأ العالم مباشرة (حل جذري بدل طلب /ابدأ مرة أخرى)
-                self.selected_world = world_id
+                self.selected_world = world_id_normalized
                 self.stop()
 
                 await interaction.response.defer(ephemeral=True)
@@ -773,7 +774,7 @@ class WorldSelectView(View):
                 username = interaction.user.name
                 player = await self.bot.get_or_create_player(user_id, username)
 
-                can_access, message = self.bot.can_access_world(player, world_id)
+                can_access, message = self.bot.can_access_world(player, world_id_normalized)
                 if not can_access:
                     await interaction.followup.send(
                         embed=discord.Embed(
@@ -786,10 +787,10 @@ class WorldSelectView(View):
                     return
 
                 # تحديث بيانات بداية العالم
-                await self.bot.db.update_player(user_id, {"current_world": world_id})
-                start_part_id = self.bot.story_loader.get_start_part(world_id)
-                part_data = self.bot.story_loader.get_part(world_id, start_part_id)
-
+                await self.bot.db.update_player(user_id, {"current_world": world_id_normalized})
+                start_part_id = self.bot.story_loader.get_start_part(world_id_normalized)
+                part_data = self.bot.story_loader.get_part(world_id_normalized, start_part_id)
+                
                 if not part_data:
                     await interaction.followup.send(
                         embed=discord.Embed(
@@ -801,23 +802,23 @@ class WorldSelectView(View):
                     )
                     return
 
-                await self.bot.db.update_player(user_id, {f"{world_id}_part": start_part_id})
+                await self.bot.db.update_player(user_id, {f"{world_id_normalized}_part": start_part_id})
                 await self.bot.db.save_session(user_id, start_part_id)
 
                 updated_player = await self.bot.db.get_player(user_id)
 
                 # Embed تمهيدي
                 intro_embed = discord.Embed(
-                    title=f"{self.bot.get_world_emoji(world_id)} تم اختيار {self.bot.get_world_name(world_id)}",
+                    title=f"{self.bot.get_world_emoji(world_id_normalized)} تم اختيار {self.bot.get_world_name(world_id_normalized)}",
                     description="✅ تم بدء القصة تلقائياً.",
-                    color=self.bot.get_world_color(world_id)
+                    color=self.bot.get_world_color(world_id_normalized)
                 )
-                intro_embed.set_image(url=self.bot.get_world_divider(world_id))
+                intro_embed.set_image(url=self.bot.get_world_divider(world_id_normalized))
                 await interaction.followup.send(embed=intro_embed, ephemeral=True)
 
                 # إرسال القصة مع الأزرار في القناة الحالية
-                story_embed = self.bot.create_game_embed(world_id, part_data, updated_player)
-                story_view = PersistentStoryView(self.bot, user_id, world_id, part_data)
+                story_embed = self.bot.create_game_embed(world_id_normalized, part_data, updated_player)
+                story_view = PersistentStoryView(self.bot, user_id, world_id_normalized, part_data)
                 guild_id = interaction.guild.id if interaction.guild else None
                 channel = interaction.channel
                 channel_id = getattr(channel, "id", None)
@@ -844,7 +845,7 @@ class WorldSelectView(View):
                             event="world_select_channel_send_failed",
                             source="permissions",
                             interaction=interaction,
-                            current_world=world_id,
+                            current_world=world_id_normalized,
                             current_part=start_part_id,
                             user_id=user_id,
                         )
@@ -869,7 +870,7 @@ class WorldSelectView(View):
                         event="world_select_disable_old_view_failed",
                         source="permissions",
                         interaction=interaction,
-                        current_world=world_id,
+                        current_world=world_id_normalized,
                         current_part=locals().get("start_part_id"),
                         user_id=self.user_id,
                     )
@@ -880,7 +881,7 @@ class WorldSelectView(View):
                     event="world_select_callback_failed",
                     source="story_loader",
                     interaction=interaction,
-                    current_world=world_id,
+                    current_world=world_id_normalized,
                     current_part=locals().get("start_part_id"),
                     user_id=self.user_id,
                 )
