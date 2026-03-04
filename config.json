@@ -3,7 +3,7 @@
     "name": "Nexus Story Bot",
     "version": "2.0.0",
     "command_prefix": "/",
-    "owner_ids": [],
+    "owner_ids": [1344645539655847946],
     "debug_mode": false,
     "testing_mode": false
   },
