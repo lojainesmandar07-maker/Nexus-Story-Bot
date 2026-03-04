@@ -177,18 +177,21 @@ class NexusBot(commands.Bot):
             logger.warning(f"⚠️ {len(failed)} إضافة فشلت: {', '.join(failed)}")
         logger.info(f"✅ تم تحميل {loaded}/{len(self.initial_extensions)} إضافة")
 
-    async def sync_guild_commands(self):
+     async def sync_guild_commands(self):
         """مزامنة أوامر السلاش لكل سيرفر لتظهر فوراً"""
         synced_count = 0
         for guild in self.guilds:
             try:
+                # انسخ الأوامر العالمية إلى السيرفر ثم مزامنة فورية
+                # هذا يقلل تأخر ظهور الأوامر العالمية مثل /ابدأ و /استمر
+                self.tree.copy_global_to(guild=guild)
                 await self.tree.sync(guild=guild)
                 synced_count += 1
             except Exception as e:
                 logger.warning(f"⚠️ فشل مزامنة أوامر السيرفر {guild.id}: {e}")
         if synced_count:
             logger.info(f"✅ تمت مزامنة أوامر السلاش في {synced_count} سيرفر")
-            
+
     async def on_ready(self):
         """يتم استدعاؤها عندما يكون البو جاهزاً"""
         logger.info(f"✅ {self.user} متصل وجاهز!")
@@ -216,6 +219,12 @@ class NexusBot(commands.Bot):
     async def on_guild_join(self, guild: discord.Guild):
         """عند دخول البوت إلى سيرفر جديد"""
         logger.info(f"✅ انضممت إلى سيرفر جديد: {guild.name} (ID: {guild.id})")
+        try:
+            self.tree.copy_global_to(guild=guild)
+            await self.tree.sync(guild=guild)
+            logger.info(f"✅ تمت مزامنة أوامر السلاش للسيرفر الجديد {guild.id}")
+        except Exception as e:
+            logger.warning(f"⚠️ فشل مزامنة السيرفر الجديد {guild.id}: {e}")
         await self.send_welcome_message(guild)
     
     async def send_welcome_message(self, guild: discord.Guild):
