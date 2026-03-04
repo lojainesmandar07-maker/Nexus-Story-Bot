@@ -122,7 +122,7 @@ class StoryCommands(commands.Cog):
         # تحديد العوالم المتاحة
         available_worlds = []
         
-        # عالم الانتازيا متاح دائماً
+        # عالم الفانتازيا متاح دائماً
         available_worlds.append("fantasy")
         
         # التحقق من فتح العوالم الأخرى
