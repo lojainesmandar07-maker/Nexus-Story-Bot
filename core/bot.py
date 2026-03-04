@@ -5,7 +5,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 import logging
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any, List, Set, Tuple
 import asyncio
 from datetime import datetime
 
@@ -158,7 +158,70 @@ class NexusBot(commands.Bot):
             self.loop.create_task(self.auto_backup_task())
         
         logger.info("✅ البوت جاهز!")
-    
+
+    async def get_active_story_states(self) -> List[Dict[str, Any]]:
+        """
+        جمع كل الأجزاء النشطة المحتملة من أكثر من مصدر حالة.
+        يعتمد على جدول sessions بالإضافة إلى حقول تقدم العوالم داخل players.
+        """
+        states: List[Dict[str, Any]] = []
+        seen: Set[Tuple[int, str, str]] = set()
+
+        if not self.db:
+            return states
+
+        world_ids = list(self.world_names.keys())
+
+        # المصدر الأول: sessions (آخر جزء متفاعل عليه غالباً)
+        sessions = await self.db.fetch_all("SELECT user_id, current_part FROM sessions")
+        for session in sessions:
+            user_id = session.get("user_id")
+            current_part = session.get("current_part")
+            if not user_id or not current_part:
+                continue
+
+            player = await self.db.get_player(user_id)
+            if not player:
+                continue
+
+            resolved_world = player.get("current_world", "fantasy")
+            if not self.story_loader.get_part(resolved_world, current_part):
+                # fallback: اكتشف العالم الصحيح عبر مطابقة part لكل عالم
+                for world_id in world_ids:
+                    if self.story_loader.get_part(world_id, current_part):
+                        resolved_world = world_id
+                        break
+
+            key = (user_id, resolved_world, current_part)
+            if key not in seen:
+                seen.add(key)
+                states.append({"user_id": user_id, "world_id": resolved_world, "part_id": current_part})
+
+        # المصدر الثاني: كل حقول *_part داخل players (يشمل تقدم عدة عوالم)
+        part_fields = ", ".join([f"{world_id}_part" for world_id in world_ids])
+        players = await self.db.fetch_all(f"SELECT user_id, {part_fields} FROM players")
+
+        for player in players:
+            user_id = player.get("user_id")
+            if not user_id:
+                continue
+
+            for world_id in world_ids:
+                part_id = player.get(f"{world_id}_part")
+                if not part_id:
+                    continue
+                if not self.story_loader.get_part(world_id, part_id):
+                    continue
+
+                key = (user_id, world_id, part_id)
+                if key in seen:
+                    continue
+
+                seen.add(key)
+                states.append({"user_id": user_id, "world_id": world_id, "part_id": part_id})
+
+        return states
+        
     async def load_extensions(self):
         """تحميل كل الإضافات من مجلد commands"""
         loaded = 0
