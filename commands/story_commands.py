@@ -5,8 +5,10 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 import logging
+import sqlite3
 from typing import Optional
 import random
+import aiosqlite
 
 from core.bot import NexusBot
 from core.constants import WORLD_NAMES, WORLD_EMOJIS, SYSTEM_MESSAGES
@@ -24,6 +26,41 @@ class StoryCommands(commands.Cog):
     def __init__(self, bot: NexusBot):
         self.bot = bot
         self.embeds = NexusEmbeds(bot)
+
+    @staticmethod
+    def _classify_error(exc: Exception, source: str = "general") -> str:
+        """تصنيف نوع الخطأ لتسهيل تتبعه في السجلات."""
+        if isinstance(exc, (aiosqlite.Error, sqlite3.Error)):
+            return "db_error"
+        if isinstance(exc, discord.Forbidden):
+            return "permissions_error"
+        if source == "story_loader":
+            return "story_loader_error"
+        return "unexpected_error"
+
+    def _log_exception_with_context(
+        self,
+        *,
+        error: Exception,
+        interaction: discord.Interaction,
+        current_world: Optional[str],
+        current_part: Optional[str],
+        source: str = "general",
+        event: str = "story_command_failed"
+    ):
+        """تسجيل structured logging مع traceback كامل."""
+        logger.exception(
+            "%s error_type=%s source=%s user_id=%s guild_id=%s channel_id=%s current_world=%s current_part=%s",
+            event,
+            self._classify_error(error, source),
+            source,
+            getattr(interaction.user, "id", None),
+            getattr(interaction.guild, "id", None),
+            getattr(interaction.channel, "id", None),
+            current_world,
+            current_part,
+            exc_info=error,
+        )
     
     # ============================================
     # أمر /ابدأ - بدء رحلة جديدة
@@ -96,7 +133,14 @@ class StoryCommands(commands.Cog):
                 await self._show_world_selection(interaction, player)
 
         except Exception as e:
-            logger.error(f"Error in start_command: {e}", exc_info=True)
+            self._log_exception_with_context(
+                error=e,
+                interaction=interaction,
+                current_world=العالم,
+                current_part=None,
+                source="story_loader" if العالم else "general",
+                event="start_command_failed",
+            )
             await interaction.followup.send(
                 "❌ حدث خطأ تقني أثناء بدء الرحلة، يرجى المحاولة لاحقاً.",
                 ephemeral=True
@@ -292,7 +336,14 @@ class StoryCommands(commands.Cog):
                 await interaction.followup.send(embed=story_embed, view=view, ephemeral=True)
 
         except Exception as e:
-            logger.error(f"Error in continue_command: {e}", exc_info=True)
+            self._log_exception_with_context(
+                error=e,
+                interaction=interaction,
+                current_world=locals().get("current_world"),
+                current_part=locals().get("current_part"),
+                source="story_loader",
+                event="continue_command_failed",
+            )
             await interaction.followup.send(
                 "❌ حدث خطأ أثناء محاولة استكمال القصة.",
                 ephemeral=True
@@ -368,8 +419,15 @@ class StoryCommands(commands.Cog):
                         time_str = f"منذ {diff.seconds // 3600} ساعة"
                     else:
                         time_str = f"منذ {diff.seconds // 60} دقيقة"
-                except:
-                    pass
+                except Exception as e:
+                    self._log_exception_with_context(
+                        error=e,
+                        interaction=interaction,
+                        current_world=h.get('world'),
+                        current_part=h.get('part_id'),
+                        source="general",
+                        event="history_timestamp_parse_failed",
+                    )
             
             value = f"{h.get('choice_text', '')[:100]}"
             if h.get('effects'):
