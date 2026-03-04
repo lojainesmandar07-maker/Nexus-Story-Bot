@@ -91,7 +91,7 @@ class StoryCommands(commands.Cog):
             # عرض العوالم المتاحة
             await self._show_world_selection(interaction, player)
 
-        async def _send_interaction_message(
+    async def _send_interaction_message(
         self,
         interaction: discord.Interaction,
         *,
