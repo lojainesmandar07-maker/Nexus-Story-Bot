@@ -747,7 +747,38 @@ class WorldSelectView(View):
                 # إرسال القصة مع الأزرار في القناة الحالية
                 story_embed = self.bot.create_game_embed(world_id, part_data, updated_player)
                 story_view = PersistentStoryView(self.bot, user_id, world_id, part_data)
-                await interaction.channel.send(embed=story_embed, view=story_view)
+                guild_id = interaction.guild.id if interaction.guild else None
+                channel = interaction.channel
+                channel_id = getattr(channel, "id", None)
+
+                channel_failure_reason: Optional[str] = None
+                if channel is None or not hasattr(channel, "send"):
+                    channel_failure_reason = "channel_missing_or_not_sendable"
+                elif interaction.guild:
+                    me = interaction.guild.me or interaction.client.user
+                    permissions = channel.permissions_for(me) if me else None
+                    if permissions is None:
+                        channel_failure_reason = "permissions_unavailable"
+                    elif not permissions.send_messages:
+                        channel_failure_reason = "missing_send_messages_permission"
+                    elif not permissions.embed_links:
+                        channel_failure_reason = "missing_embed_links_permission"
+
+                if channel_failure_reason is None:
+                    try:
+                        await channel.send(embed=story_embed, view=story_view)
+                    except Exception as send_error:
+                        channel_failure_reason = f"send_failed:{type(send_error).__name__}:{send_error}"
+
+                if channel_failure_reason:
+                    logger.warning(
+                        "⚠️ تعذر إرسال القصة في القناة الحالية (%s) guild_id=%s channel_id=%s user_id=%s",
+                        channel_failure_reason,
+                        guild_id,
+                        channel_id,
+                        interaction.user.id,
+                    )
+                    await interaction.followup.send(embed=story_embed, view=story_view, ephemeral=True)
 
                 # تعطيل رسالة اختيار العالم القديمة
                 try:
