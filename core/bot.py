@@ -176,7 +176,19 @@ class NexusBot(commands.Bot):
         if failed:
             logger.warning(f"⚠️ {len(failed)} إضافة فشلت: {', '.join(failed)}")
         logger.info(f"✅ تم تحميل {loaded}/{len(self.initial_extensions)} إضافة")
-    
+
+    async def sync_guild_commands(self):
+        """مزامنة أوامر السلاش لكل سيرفر لتظهر فوراً"""
+        synced_count = 0
+        for guild in self.guilds:
+            try:
+                await self.tree.sync(guild=guild)
+                synced_count += 1
+            except Exception as e:
+                logger.warning(f"⚠️ فشل مزامنة أوامر السيرفر {guild.id}: {e}")
+        if synced_count:
+            logger.info(f"✅ تمت مزامنة أوامر السلاش في {synced_count} سيرفر")
+            
     async def on_ready(self):
         """يتم استدعاؤها عندما يكون البو جاهزاً"""
         logger.info(f"✅ {self.user} متصل وجاهز!")
@@ -191,6 +203,9 @@ class NexusBot(commands.Bot):
         
         # تحديث إحصائيات المستخدمين
         await self.update_stats()
+
+        # مزامنة سريعة لكل سيرفر (تجعل الأوامر تظهر فوراً مثل /ابدأ و/استمر)
+        await self.sync_guild_commands()
         
         # إرسال رسالة إلى قنوات الترحيب
         for guild in self.guilds:
