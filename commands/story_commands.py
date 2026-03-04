@@ -11,7 +11,7 @@ import random
 import aiosqlite
 
 from core.bot import NexusBot
-from core.constants import WORLD_NAMES, WORLD_EMOJIS, SYSTEM_MESSAGES
+from core.constants import WORLD_NAMES, WORLD_EMOJIS, SYSTEM_MESSAGES, normalize_world_id
 from ui.views import PersistentStoryView, WorldSelectView, ConfirmView
 from ui.embeds import NexusEmbeds
 from utils.rate_limiter import rate_limit
@@ -207,6 +207,7 @@ class StoryCommands(commands.Cog):
     
     async def _start_world(self, interaction: discord.Interaction, world_id: str, player: dict):
         """بدء عالم معين"""
+        world_id = normalize_world_id(world_id)
         
         # التحقق من إمكانية دخول العالم
         can_access, message = self.bot.can_access_world(player, world_id)
@@ -294,7 +295,11 @@ class StoryCommands(commands.Cog):
                 )
                 return
 
-            current_world = player.get("current_world", "fantasy")
+            current_world = normalize_world_id(player.get("current_world", "fantasy"))
+
+            # تصحيح بيانات قديمة مخزنة بمرادفات مثل past/alt
+            if player.get("current_world") != current_world:
+                await self.bot.db.update_player(user_id, {"current_world": current_world})
             current_part = player.get(f"{current_world}_part")
 
             if not current_part or current_part == "لم يبدأ":
