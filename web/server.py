@@ -4,6 +4,7 @@ from flask import Flask, jsonify
 from threading import Thread
 import logging
 from datetime import datetime
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -195,7 +196,9 @@ def stats():
 def run():
     """تشغيل الخادم"""
     try:
-        app.run(host='0.0.0.0', port=8080, debug=False, use_reloader=False)
+        # Render يمرر المنفذ عبر PORT، مع fallback إلى 8080
+        port = int(os.getenv("PORT", "8080"))
+        app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
     except Exception as e:
         logger.error(f"❌ خطأ في خادم الويب: {e}")
 
@@ -204,4 +207,4 @@ def keep_alive():
     t = Thread(target=run)
     t.daemon = True
     t.start()
-    logger.info("🌐 خادم الويب شغال على port 8080")
+    logger.info(f"🌐 خادم الويب شغال على port {os.getenv('PORT', '8080')}")
