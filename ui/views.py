@@ -686,14 +686,69 @@ class WorldSelectView(View):
                     await interaction.response.send_message("❌ هذا ليس لك!", ephemeral=True)
                     return
 
+                # نغلق أزرار الاختيار ثم نبدأ العالم مباشرة (حل جذري بدل طلب /ابدأ مرة أخرى)
                 self.selected_world = world_id
                 self.stop()
 
-                message = f"✅ تم اختيار {world_id}. استخدم /ابدأ {world_id}"
-                if interaction.response.is_done():
-                    await interaction.followup.send(message, ephemeral=True)
-                else:
-                    await interaction.response.edit_message(content=message, view=None)
+                await interaction.response.defer(ephemeral=True)
+
+                user_id = interaction.user.id
+                username = interaction.user.name
+                player = await self.bot.get_or_create_player(user_id, username)
+
+                can_access, message = self.bot.can_access_world(player, world_id)
+                if not can_access:
+                    await interaction.followup.send(
+                        embed=discord.Embed(
+                            title="🔒 عالم مقفل",
+                            description=message,
+                            color=self.bot.world_colors["warning"]
+                        ),
+                        ephemeral=True
+                    )
+                    return
+
+                # تحديث بيانات بداية العالم
+                await self.bot.db.update_player(user_id, {"current_world": world_id})
+                start_part_id = self.bot.story_loader.get_start_part(world_id)
+                part_data = self.bot.story_loader.get_part(world_id, start_part_id)
+
+                if not part_data:
+                    await interaction.followup.send(
+                        embed=discord.Embed(
+                            title="❌ خطأ",
+                            description="تعذر تحميل بداية العالم. حاول مرة أخرى.",
+                            color=self.bot.world_colors["error"]
+                        ),
+                        ephemeral=True
+                    )
+                    return
+
+                await self.bot.db.update_player(user_id, {f"{world_id}_part": start_part_id})
+                await self.bot.db.save_session(user_id, start_part_id)
+
+                updated_player = await self.bot.db.get_player(user_id)
+
+                # Embed تمهيدي
+                intro_embed = discord.Embed(
+                    title=f"{self.bot.get_world_emoji(world_id)} تم اختيار {self.bot.get_world_name(world_id)}",
+                    description="✅ تم بدء القصة تلقائياً.",
+                    color=self.bot.get_world_color(world_id)
+                )
+                intro_embed.set_image(url=self.bot.get_world_divider(world_id))
+                await interaction.followup.send(embed=intro_embed, ephemeral=True)
+
+                # إرسال القصة مع الأزرار في القناة الحالية
+                story_embed = self.bot.create_game_embed(world_id, part_data, updated_player)
+                story_view = PersistentStoryView(self.bot, user_id, world_id, part_data)
+                await interaction.channel.send(embed=story_embed, view=story_view)
+
+                # تعطيل رسالة اختيار العالم القديمة
+                try:
+                    await interaction.message.edit(view=None)
+                except Exception:
+                    pass
+
             except Exception as e:
                 logger.error(f"❌ خطأ في WorldSelectView callback: {e}", exc_info=True)
                 err = "❌ حدث خطأ أثناء اختيار العالم، حاول مرة أخرى"
