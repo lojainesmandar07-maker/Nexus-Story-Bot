@@ -122,7 +122,7 @@ class StoryCommands(commands.Cog):
         # تحديد العوالم المتاحة
         available_worlds = []
         
-        # عالم الفانتازيا متاح دائماً
+        # عالم الانتازيا متاح دائماً
         available_worlds.append("fantasy")
         
         # التحقق من فتح العوالم الأخرى
@@ -226,7 +226,8 @@ class StoryCommands(commands.Cog):
     # ============================================
     # أمر /استمر - متابعة الرحلة
     # ============================================
-        @app_commands.command(name="استمر", description="⏩ استمر في رحلتك من آخر نقطة")
+    
+    @app_commands.command(name="استمر", description="⏩ استمر في رحلتك من آخر نقطة")
     @rate_limit("استمر")
     async def continue_command(self, interaction: discord.Interaction):
         """متابعة الرحلة من آخر نقطة"""
@@ -312,7 +313,10 @@ class StoryCommands(commands.Cog):
         العدد: Optional[int] = 10
     ):
         """عرض تاريخ القرارات"""
-        
+
+        # منع خطأ: The application did not respond
+        await interaction.response.defer(ephemeral=True)
+
         # تحديد العدد (بين 1 و 20)
         limit = max(1, min(العدد, 20))
         
@@ -325,7 +329,7 @@ class StoryCommands(commands.Cog):
                 description="لم تبدأ رحلتك بعد! استخدم `/ابدأ` أولاً",
                 color=self.bot.world_colors["error"]
             )
-            await interaction.response.send_message(embed=embed, ephemeral=True)
+            await interaction.followup.send(embed=embed, ephemeral=True)
             return
         
         # الحصول على تاريخ القرارات
@@ -337,7 +341,7 @@ class StoryCommands(commands.Cog):
                 description="لا توجد قرارات مسجلة بعد. ابدأ اللعب لتظهر قراراتك!",
                 color=self.bot.world_colors["info"]
             )
-            await interaction.response.send_message(embed=embed, ephemeral=True)
+            await interaction.followup.send(embed=embed, ephemeral=True)
             return
         
         # إنشاء رسالة التاريخ
@@ -379,7 +383,7 @@ class StoryCommands(commands.Cog):
         
         embed.set_footer(text=f"إجمالي القرارات: {player.get('choices_count', 0)}")
         
-        await interaction.response.send_message(embed=embed, ephemeral=True)
+        await interaction.followup.send(embed=embed, ephemeral=True)
     
     # ============================================
     # أمر /تاريخي - عرض تقدمي في العالم
@@ -389,7 +393,10 @@ class StoryCommands(commands.Cog):
     @rate_limit("تاريخي")
     async def progress_command(self, interaction: discord.Interaction):
         """عرض التقدم في العالم الحالي"""
-        
+
+        # منع خطأ: The application did not respond
+        await interaction.response.defer(ephemeral=True)
+
         user_id = interaction.user.id
         player = await self.bot.db.get_player(user_id)
         
@@ -399,7 +406,7 @@ class StoryCommands(commands.Cog):
                 description="لم تبدأ رحلتك بعد! استخدم `/ابدأ` أولاً",
                 color=self.bot.world_colors["error"]
             )
-            await interaction.response.send_message(embed=embed, ephemeral=True)
+            await interaction.followup.send(embed=embed, ephemeral=True)
             return
         
         current_world = player.get("current_world", "fantasy")
@@ -438,7 +445,7 @@ class StoryCommands(commands.Cog):
                 value=f"مكتمل! النهاية: {player[f'{current_world}_ending']}",
                 inline=False
             )
-                    
+        
         # متغيرات خاصة بالعالم
         if current_world == "fantasy":
             embed.add_field(
@@ -479,7 +486,7 @@ class StoryCommands(commands.Cog):
         
         embed.set_footer(text=f"المستوى {player.get('level', 1)} • {player.get('xp', 0)} XP")
         
-        await interaction.response.send_message(embed=embed, ephemeral=True)
+        await interaction.followup.send(embed=embed, ephemeral=True)
     
     # ============================================
     # أمر /إعادة - إعادة تعيين التقدم
