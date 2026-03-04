@@ -27,7 +27,7 @@ class StoryLoader:
             "name": "عالم الفانتازيا",
             "file": paths.FANTASY_STORY,
             "start_part": "FANTASY_01",
-            "total_parts": 50,
+            "total_parts": 24,
             "endings": 3,
             "color": 0x9b59b6,
             "emoji": "🌲"
@@ -36,8 +36,8 @@ class StoryLoader:
             "name": "عالم الماضي",
             "file": paths.RETRO_STORY,
             "start_part": "RETRO_01",
-            "total_parts": 40,
-            "endings": 3,
+            "total_parts": 100,
+            "endings": 5,
             "color": 0x3498db,
             "emoji": "📜"
         },
@@ -45,7 +45,7 @@ class StoryLoader:
             "name": "عالم المستقبل",
             "file": paths.FUTURE_STORY,
             "start_part": "FUTURE_01",
-            "total_parts": 40,
+            "total_parts": 20,
             "endings": 3,
             "color": 0xe74c3c,
             "emoji": "🤖"
@@ -54,8 +54,8 @@ class StoryLoader:
             "name": "الواقع البديل",
             "file": paths.ALTERNATE_STORY,
             "start_part": "ALT_01",
-            "total_parts": 30,
-            "endings": 4,
+            "total_parts": 20,
+            "endings": 3,
             "color": 0x2ecc71,
             "emoji": "🌀"
         }
@@ -100,6 +100,9 @@ class StoryLoader:
         
         # حساب إجمالي الأجزاء
         self._update_total_parts()
+
+        # التحقق من الوصلات بعد تحميل كل العوالم
+        self.validate_all_parts()
     
     async def load_story(self, world_id: str) -> bool:
         """تحميل قصة عالم معين"""
@@ -156,18 +159,25 @@ class StoryLoader:
                 return False
         
         # التحقق من وجود أجزاء
-        if not data.get('parts'):
+        parts = data.get('parts')
+        if not parts:
             self.logger.error(f"❌ {world_id}: لا توجد أجزاء")
             return False
-        
+
+        # التحقق من تطابق metadata.total_parts مع العدد الفعلي
+        metadata_total = data.get('metadata', {}).get('total_parts')
+        actual_total = len(parts)
+        if isinstance(metadata_total, int) and metadata_total != actual_total:
+            self.logger.error(f"❌ {world_id}: metadata.total_parts={metadata_total} لا يطابق العدد الفعلي={actual_total}")
+            return False
+
         # التحقق من كل جزء
-        for part_id, part in data['parts'].items():
+        for part_id, part in parts.items():
             if not self._validate_part(part, part_id, world_id):
                 return False
         
         return True
-    
-    def _validate_part(self, part: Dict, part_id: str, world_id: str) -> bool:
+            def _validate_part(self, part: Dict, part_id: str, world_id: str) -> bool:
         """التحقق من صحة جزء معين"""
         required_fields = ['title', 'text', 'choices']
         
@@ -177,13 +187,27 @@ class StoryLoader:
                 return False
         
         # التحقق من الخيارات
-        if not part['choices']:
+        choices = part['choices']
+        if not choices:
             self.logger.error(f"❌ {world_id} - {part_id}: لا توجد خيارات")
             return False
+
+        if not (2 <= len(choices) <= 4):
+            self.logger.error(f"❌ {world_id} - {part_id}: عدد الخيارات يجب أن يكون بين 2 و4")
+            return False
         
-        for i, choice in enumerate(part['choices']):
+        for i, choice in enumerate(choices):
             if 'text' not in choice or 'next' not in choice:
                 self.logger.error(f"❌ {world_id} - {part_id}: خيار {i} غير صالح")
+                return False
+
+            chance = choice.get('chance')
+            if chance is not None and (not isinstance(chance, int) or chance < 1 or chance > 100):
+                self.logger.error(f"❌ {world_id} - {part_id}: chance غير صالح في الخيار {i}")
+                return False
+
+            if chance is not None and 'fail_next' not in choice:
+                self.logger.error(f"❌ {world_id} - {part_id}: fail_next مفقود للخيار {i}")
                 return False
         
         return True
@@ -411,8 +435,7 @@ class StoryLoader:
         
         self.logger.warning(f"⚠️ جزء غير موجود: {world_id} - {part_id}")
         return None
-    
-    def get_start_part(self, world_id: str) -> str:
+            def get_start_part(self, world_id: str) -> str:
         """الحصول على جزء البداية لعالم معين"""
         world_info = self.WORLDS.get(world_id, {})
         return world_info.get("start_part", f"{world_id.upper()}_01")
@@ -539,7 +562,7 @@ class StoryLoader:
         self.cache.clear()
         self.logger.info("🧹 تم مسح التخزين المؤقت للقصص")
     
-    def reload_world(self, world_id: str) -> bool:
+    async def reload_world(self, world_id: str) -> bool:
         """إعادة تحميل عالم معين"""
         # مسح الكاش لهذا العالم
         keys_to_delete = [k for k in self.cache if k.startswith(f"{world_id}_")]
@@ -547,7 +570,7 @@ class StoryLoader:
             del self.cache[key]
         
         # إعادة التحميل
-        return self.load_story(world_id)
+        return await self.load_story(world_id)
     
     def get_stats(self) -> Dict:
         """الحصول على إحصائيات المحمل"""
@@ -572,9 +595,15 @@ class StoryLoader:
             
             for part_id, part in parts.items():
                 for i, choice in enumerate(part.get('choices', [])):
+                    valid_endings = set(story.get('endings', {}).keys())
+
                     next_part = choice.get('next')
-                    if next_part and next_part not in parts:
+                    if next_part and next_part not in parts and next_part not in valid_endings:
                         errors.append(f"{world_id} - {part_id} -> {next_part} (غير موجود)")
+
+                    fail_next = choice.get('fail_next')
+                    if fail_next and fail_next not in parts and fail_next not in valid_endings:
+                        errors.append(f"{world_id} - {part_id} -> fail_next:{fail_next} (غير موجود)")
         
         if errors:
             self.logger.warning(f"⚠️ {len(errors)} خطأ في وصلات القصة")
