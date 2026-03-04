@@ -3,9 +3,11 @@
 import time
 import asyncio
 from collections import defaultdict, deque
-from typing import Dict, List, Tuple, Optional, Any
+from typing import Dict, List, Tuple, Optional, Any, Callable
 from datetime import datetime, timedelta
 import logging
+import inspect
+from functools import wraps
 from dataclasses import dataclass, field
 
 logger = logging.getLogger(__name__)
@@ -318,8 +320,12 @@ def rate_limit(command_name: str = None):
     """
     Decorator لتحديد سرعة الأوامر
     مثال: @rate_limit("ابدأ")
+    
+    ملاحظة: ننسخ التوقيع الأصلي للدالة حتى يظل discord app_commands
+    قادراً على قراءة annotations الخاصة بالـ slash command بشكل صحيح.
     """
-    def decorator(func):
+    def decorator(func: Callable):
+        @wraps(func)
         async def wrapper(self, interaction, *args, **kwargs):
             user_id = interaction.user.id
             cmd = command_name or func.__name__
@@ -338,7 +344,9 @@ def rate_limit(command_name: str = None):
             
             # تنفيذ الأمر
             return await func(self, interaction, *args, **kwargs)
-        
+
+        # مهم جداً مع discord.app_commands حتى لا تضيع type annotations
+        wrapper.__signature__ = inspect.signature(func)        
         return wrapper
     return decorator
 
