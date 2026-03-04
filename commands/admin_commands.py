@@ -17,6 +17,7 @@ from core.config import config
 from database.db_manager import DatabaseManager
 from game.achievements import ALL_ACHIEVEMENTS
 from ui.views import ConfirmView
+from ui.embeds import NexusEmbeds
 from utils.rate_limiter import rate_limit
 from utils.helpers import format_time, format_number
 
@@ -28,7 +29,7 @@ class AdminCommands(commands.Cog):
     
     def __init__(self, bot: NexusBot):
         self.bot = bot
-        self.embeds = bot.embeds
+        self.embeds = NexusEmbeds(bot)
     
     # ============================================
     # التحقق من صلاحيات المشرف
