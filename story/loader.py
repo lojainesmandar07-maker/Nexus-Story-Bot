@@ -21,69 +21,43 @@ class StoryLoader:
     يدعم 4 عوالم مع تخزين مؤقت وتحقق من الصحة
     """
     
-    # داخل class StoryLoader
-
-WORLDS = {
-    "fantasy": {
-        "name": "عالم الفانتازيا",
-        "file": paths.FANTASY_STORY,
-        "start_part": "FANTASY_001",
-        "total_parts": 50,
-        "endings": 3,
-        "color": 0x9b59b6,
-        "emoji": "🌲"
-    },
-    "retro": {
-        "name": "عالم الماضي",
-        "file": paths.RETRO_STORY,
-        "start_part": "RETRO_01",
-        "total_parts": 100,
-        "endings": 5,
-        "color": 0x3498db,
-        "emoji": "📜"
-    },
-    "future": {
-        "name": "عالم المستقبل",
-        "file": paths.FUTURE_STORY,
-        "start_part": "FUTURE_001",
-        "total_parts": 32,
-        "endings": 4,
-        "color": 0xe74c3c,
-        "emoji": "🤖"
-    },
-    "alternate": {
-        "name": "الواقع البديل",
-        "file": paths.ALTERNATE_STORY,
-        "start_part": "ALTER_001",
-        "total_parts": 36,
-        "endings": 5,
-        "color": 0x2ecc71,
-        "emoji": "🌀"
-    }
-}
-
-def get_start_part(self, world_id: str) -> str:
-    """الحصول على جزء البداية لعالم معين مع توافق أسماء الأجزاء المختلفة"""
-    world_info = self.WORLDS.get(world_id, {})
-    configured_start = world_info.get("start_part", f"{world_id.upper()}_01")
-
-    story = self.stories.get(world_id, {})
-    parts = story.get("parts", {})
-
-    if configured_start in parts:
-        return configured_start
-
-    if parts:
-        # fallback مرن: خذ أقل جزء حسب الرقم النهائي (يدعم _01 و _001)
-        def _part_sort_key(part_id: str):
-            try:
-                return int(part_id.split("_")[-1])
-            except (ValueError, TypeError):
-                return float("inf")
-
-        return min(parts.keys(), key=_part_sort_key)
-
-    return configured_start
+    # تعريف العوالم الأربعة
+    WORLDS = {
+        "fantasy": {
+            "name": "عالم الفانتازيا",
+            "file": paths.FANTASY_STORY,
+            "start_part": "FANTASY_001",
+            "total_parts": 50,
+            "endings": 3,
+            "color": 0x9b59b6,
+            "emoji": "🌲"
+        },
+        "retro": {
+            "name": "عالم الماضي",
+            "file": paths.RETRO_STORY,
+            "start_part": "RETRO_01",
+            "total_parts": 100,
+            "endings": 5,
+            "color": 0x3498db,
+            "emoji": "📜"
+        },
+        "future": {
+            "name": "عالم المستقبل",
+            "file": paths.FUTURE_STORY,
+            "start_part": "FUTURE_001",
+            "total_parts": 32,
+            "endings": 4,
+            "color": 0xe74c3c,
+            "emoji": "🤖"
+        },
+        "alternate": {
+            "name": "الواقع البديل",
+            "file": paths.ALTERNATE_STORY,
+            "start_part": "ALTER_001",
+            "total_parts": 36,
+            "endings": 5,
+            "color": 0x2ecc71,
+            "emoji": "🌀"
         }
     }
     
@@ -464,9 +438,27 @@ def get_start_part(self, world_id: str) -> str:
         return None
     
     def get_start_part(self, world_id: str) -> str:
-        """الحصول على جزء البداية عالم معين"""
+        """الحصول على جزء البداية لعالم معين مع توافق أسماء الأجزاء المختلفة"""
         world_info = self.WORLDS.get(world_id, {})
-        return world_info.get("start_part", f"{world_id.upper()}_01")
+        configured_start = world_info.get("start_part", f"{world_id.upper()}_01")
+
+        story = self.stories.get(world_id, {})
+        parts = story.get("parts", {})
+
+        if configured_start in parts:
+            return configured_start
+
+        if parts:
+            # fallback مرن: خذ أقل جزء حسب الرقم النهائي (يدعم _01 و _001)
+            def _part_sort_key(part_id: str):
+                try:
+                    return int(part_id.split("_")[-1])
+                except (ValueError, TypeError):
+                    return float("inf")
+
+            return min(parts.keys(), key=_part_sort_key)
+
+        return configured_start
     
     def get_next_part(self, world_id: str, current_part: str, choice_index: int) -> Optional[str]:
         """الحصول على الجزء التالي بناءً على اختيار"""
