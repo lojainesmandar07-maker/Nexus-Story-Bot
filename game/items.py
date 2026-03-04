@@ -278,6 +278,20 @@ MEMORY_ORB = GameItem(
     effects={"memories": 10, "mystery": 5}
 )
 
+MEMORY_FRAGMENT = GameItem(
+    id="memory_fragment",
+    name="🧩 شظية ذكرى",
+    description="قطعة صغيرة من ذاكرة مكسورة. يمكن جمعها لفهم أحداث الماضي.",
+    emoji="🧩",
+    type=ItemType.CRAFTING,
+    rarity=ItemRarity.UNCOMMON,
+    value=8,
+    max_stack=200,
+    world="retro",
+    usable=False,
+    craftable=True
+)
+
 TIME_SAND = GameItem(
     id="time_sand",
     name="⏳ رمال الزمن",
@@ -552,6 +566,7 @@ ALL_ITEMS = {
     
     # ماضي
     "memory_orb": MEMORY_ORB,
+    "memory_fragment": MEMORY_FRAGMENT,
     "time_sand": TIME_SAND,
     "regret_tear": REGRET_TEAR,
     "old_photo": OLD_PHOTO,
