@@ -81,6 +81,33 @@ WORLD_NAMES = {
 }
 
 # ============================================
+# تطبيع معرفات العوالم (دعم المرادفات والكتابات المختلفة)
+# ============================================
+WORLD_ID_ALIASES = {
+    "past": "retro",
+    "alt": "alternate",
+    "عالم الماضي": "retro",
+    "الماضي": "retro",
+    "عالم المستقبل": "future",
+    "المستقبل": "future",
+    "عالم الفانتازيا": "fantasy",
+    "الفانتازيا": "fantasy",
+    "الواقع البديل": "alternate",
+    "alternate": "alternate",
+    "retro": "retro",
+    "future": "future",
+    "fantasy": "fantasy",
+}
+
+
+def normalize_world_id(world_id: str) -> str:
+    """تحويل أي معرف/اسم عالم إلى المعرف القياسي المستخدم في قاعدة البيانات."""
+    if not world_id:
+        return "fantasy"
+    key = str(world_id).strip().lower()
+    return WORLD_ID_ALIASES.get(key, key)
+
+# ============================================
 # أوصاف العوالم
 # ============================================
 WORLD_DESCRIPTIONS = {
