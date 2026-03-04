@@ -40,6 +40,8 @@ async def main():
         logger.critical("❌ TOKEN غير موجود. أضفه في متغيرات البيئة.")
         return
 
+    # ملاحظة تنظيمية: تسجيل PersistentViewManager و register_all_views
+    # يتم حصرياً داخل NexusBot.setup_hook في core/bot.py لتجنب أي تكرار مستقبلي.
     bot = NexusBot()
 
     try:
