@@ -102,14 +102,20 @@ class PersistentStoryView(View):
                 )
                 await interaction.response.send_message(embed=embed, ephemeral=True)
                 return
+
+            # إقرار التفاعل مباشرة لتجنب مهلة Discord عند بطء DB
+            await interaction.response.defer()
             
             # التحقق من معدل الاستخدام (منع السبام)
             async with ButtonRateLimit(self.bot, self.user_id, f"{self.world_id}_{self.part_id}") as rate_limit:
                 if not rate_limit.allowed:
-                    await rate_limit.send_wait_message(interaction)
+                    if rate_limit.wait_time:
+                        message = self.bot.rate_limiter.format_wait_message(rate_limit.wait_time)
+                    else:
+                        message = "⏳ انتظر قليلاً قبل استخدام الزر مرة أخرى"
+
+                    await interaction.followup.send(message, ephemeral=True)
                     return
-            
-            await interaction.response.defer()
             
             try:
                 # تسجيل النقر
