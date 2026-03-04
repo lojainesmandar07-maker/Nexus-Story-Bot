@@ -756,7 +756,7 @@ class WorldSelectView(View):
                     await interaction.followup.send(err, ephemeral=True)
                 else:
                     await interaction.response.send_message(err, ephemeral=True)
-        
+
         return callback
     
     async def on_timeout(self):
